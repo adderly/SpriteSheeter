@@ -4,21 +4,26 @@
  */
 package org.leenjewel.cocos2d.spritesheeter.application.panel;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Stroke;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import org.leenjewel.cocos2d.spritesheeter.application.logic.ILogic;
-import org.leenjewel.cocos2d.spritesheeter.application.plnodes.PLImageNode;
+import org.leenjewel.cocos2d.spritesheeter.plist.node.IPLNode;
+import org.leenjewel.cocos2d.spritesheeter.plist.node.PLImageNode;
+import org.leenjewel.cocos2d.spritesheeter.plist.node.PLNodeSort;
 import org.leenjewel.cocos2d.spritesheeter.plist.objects.PLDictionary;
 import org.leenjewel.cocos2d.spritesheeter.xml.XMLFile;
 
@@ -27,11 +32,12 @@ import org.leenjewel.cocos2d.spritesheeter.xml.XMLFile;
  * @author leenjewel
  */
 public class EditorJPanel extends JPanel {
+    private boolean _isToSave = false;
     private ILogic _logic;
     private BufferedImage _canvasBackground;
     private PLDictionary _plDict;
-    private ArrayList<PLImageNode> _imageList = new ArrayList<PLImageNode>();
-    private HashMap<String, PLImageNode> _images = new HashMap<String, PLImageNode>();
+    private ArrayList<IPLNode> _imageList = new ArrayList<IPLNode>();
+    private HashMap<String, IPLNode> _images = new HashMap<String, IPLNode>();
     
     public EditorJPanel(ILogic logic){
         _logic = logic;
@@ -41,14 +47,18 @@ public class EditorJPanel extends JPanel {
     
     public void addImage(String imagePath){
         PLImageNode newImageNode = new PLImageNode(imagePath);
-        _images.put(newImageNode.getImageName(), newImageNode);
-        _imageList.add(newImageNode);
-        PLDictionary frames = getFrames();
-        frames.put(newImageNode.getImageName(), newImageNode.makePLNode());
+        if (null == _images.get(newImageNode.getName())){
+            _images.put(newImageNode.getName(), newImageNode);
+            _imageList.add(newImageNode);
+            PLDictionary frames = getFrames();
+            frames.put(newImageNode.getName(), newImageNode.makePLNode());
+        }
     }
     
     public void saveImage(File imageFile) throws IOException{
-        ImageIO.write(_canvasBackground, "png", imageFile);
+        _isToSave = true;
+        ImageIO.write(createCanvas(), "png", imageFile);
+        _isToSave = false;
     }
     
     public void savePList(String filePath){
@@ -100,47 +110,18 @@ public class EditorJPanel extends JPanel {
     }
     
     private void sortImageNode(){
-        Collections.sort(_imageList, new Comparator(){
-
-            @Override
-            public int compare(Object t, Object t1) {
-                PLImageNode node1 = ((PLImageNode)t);
-                PLImageNode node2 = ((PLImageNode)t1);
-                int sort1, sort2;
-                switch (_logic.getLayoutSortOn()){
-                    case SortOnWidth:
-                        sort1 = node1.getImageWidth();
-                        sort2 = node2.getImageWidth();
-                        break;
-                    case SortOnHeight:
-                        sort1 = node1.getImageHeight();
-                        sort2 = node2.getImageHeight();
-                        break;
-                    default:
-                        sort1 = node1.getImageWidth();
-                        sort2 = node2.getImageWidth();
-                        break;
-                }
-                
-                switch (_logic.getLayoutSortOrder()){
-                    case SortOrderAscending:
-                        return sort1 < sort2 ? 1 : 0;
-                    case SortOrderDescending:
-                        return sort1 < sort2 ? 0 : 1;
-                    default:
-                        return sort1 < sort2 ? 1 : 0;
-                }
-            }
-        });
+        Collections.sort(_imageList, new PLNodeSort(_logic));
     }
     
     private void readyImageNode(){
         sortImageNode();
         int nx = _logic.getLayoutRowPadding(), ny = _logic.getLayoutColumnPadding(), mwidth = 0, mheight = 0;
         for (int i = 0; i < _imageList.size(); i++){
-            PLImageNode node = _imageList.get(i);
-            int iw = nx + _logic.getLayoutRowPadding() + node.getImageWidth();
-            int ih = ny + _logic.getLayoutColumnPadding() + node.getImageHeight();
+            IPLNode node = _imageList.get(i);
+            node.setX(nx);
+            node.setY(ny);
+            int iw = nx + _logic.getLayoutRowPadding() + node.getWidth();
+            int ih = ny + _logic.getLayoutColumnPadding() + node.getHeight();
             switch (_logic.getLayoutOrder()){
                 case RowFirst:
                     if (iw > _logic.getCanvasWidth()){
@@ -148,8 +129,9 @@ public class EditorJPanel extends JPanel {
                         ny += _logic.getLayoutColumnPadding() + mheight;
                         mheight = 0;
                     }else{
-                        if (node.getImageHeight() >= mheight){
-                            mheight = node.getImageHeight();
+                        nx += node.getWidth() + _logic.getLayoutRowPadding();
+                        if (node.getHeight() >= mheight){
+                            mheight = node.getHeight();
                         }
                     }
                     break;
@@ -159,8 +141,9 @@ public class EditorJPanel extends JPanel {
                         ny = _logic.getLayoutColumnPadding();
                         mwidth = 0;
                     }else{
-                        if (node.getImageWidth() >= mwidth){
-                            mwidth = node.getImageWidth();
+                        ny += node.getHeight() + _logic.getLayoutColumnPadding();
+                        if (node.getWidth() >= mwidth){
+                            mwidth = node.getWidth();
                         }
                     }
                     break;
@@ -170,20 +153,21 @@ public class EditorJPanel extends JPanel {
                         ny += _logic.getLayoutColumnPadding() + mheight;
                         mheight = 0;
                     }else{
-                        if (node.getImageHeight() >= mheight){
-                            mheight = node.getImageHeight();
+                        nx += node.getWidth() + _logic.getLayoutRowPadding();
+                        if (node.getHeight() >= mheight){
+                            mheight = node.getHeight();
                         }
                     }
                     break;
             }
-            node.setX(nx);
-            node.setY(ny);
-            nx += node.getImageWidth() + _logic.getLayoutRowPadding();
-            ny += node.getImageHeight() + _logic.getLayoutColumnPadding();
         }
     }
     
     private void onDraw(Graphics g){
+        g.drawImage(createCanvas(), 0, 0, this);
+    }
+    
+    private BufferedImage createCanvas(){
         _canvasBackground = new BufferedImage(
                 _logic.getCanvasWidth(),
                 _logic.getCanvasHeight(),
@@ -197,18 +181,31 @@ public class EditorJPanel extends JPanel {
         
         g2d.dispose();
         g2d = _canvasBackground.createGraphics();
-        readyImageNode();
-        drawImageToCanvas(g2d);
-        g2d.dispose();
         
-        g.drawImage(_canvasBackground, 0, 0, this);
+        readyImageNode();
+        for (int i = 0; i < _imageList.size(); i++){
+            IPLNode<Image> node = _imageList.get(i);
+            g2d.drawImage(node.getData(), node.getX(), node.getY(), node.getWidth(), node.getHeight(), this);
+        }
+        if (_isToSave == false && _logic.getCanvasCheckerbard()){
+            drawCheckerboard(g2d);
+        }
+        g2d.dispose();
+        return _canvasBackground;
     }
     
-    private void drawImageToCanvas(Graphics2D g2d){
+    private void drawCheckerboard(Graphics2D g){
+        Color backupColor = g.getColor();
+        Stroke backupStroke = g.getStroke();
+        g.setColor(Color.RED);
+        g.setStroke(new BasicStroke(1.0f));
+        g.drawRect(0, 0, _canvasBackground.getWidth()-1, _canvasBackground.getHeight()-1);
         for (int i = 0; i < _imageList.size(); i++){
-            PLImageNode node = _imageList.get(i);
-            g2d.drawImage(node.getImage(), node.getX(), node.getY(), node.getImageWidth(), node.getImageHeight(), this);
+            IPLNode node = _imageList.get(i);
+            g.drawRect(node.getX(), node.getY(), node.getWidth(), node.getHeight());
         }
+        g.setColor(backupColor);
+        g.setStroke(backupStroke);
     }
     
     @Override

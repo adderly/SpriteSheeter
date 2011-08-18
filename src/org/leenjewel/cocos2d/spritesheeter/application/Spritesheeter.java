@@ -450,7 +450,8 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
     }// </editor-fold>//GEN-END:initComponents
 
 private void jCheckBox_canvas_checkerbardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_canvas_checkerbardActionPerformed
-// TODO add your handling code here:
+    EditorJPanel editor = ((EditorJPanel)this.jTabbedPane_main.getSelectedComponent());
+    editor.repaint();
 }//GEN-LAST:event_jCheckBox_canvas_checkerbardActionPerformed
 
 private void jButton_layout_applyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_layout_applyActionPerformed
@@ -471,8 +472,9 @@ private void jButton_export_texture_saveActionPerformed(java.awt.event.ActionEve
             File saveFile = jFileChooser_save.getSelectedFile();
             editor.saveImage(saveFile);
             fileName = saveFile.getName().split("[.]")[0];
+            editor.savePList(saveFile.getPath().replace(saveFile.getName(), "")+fileName+".plist");
         }
-        
+        /*
         jFileChooser_save = new JFileChooser();
         imageFileFilter = new FileNameExtensionFilter("plist","plist");
         jFileChooser_save.addChoosableFileFilter(imageFileFilter);
@@ -481,7 +483,7 @@ private void jButton_export_texture_saveActionPerformed(java.awt.event.ActionEve
         if (saveFileId == JFileChooser.APPROVE_OPTION){
             File saveFile = jFileChooser_save.getSelectedFile();
             editor.savePList(saveFile.getPath());
-        }
+        }*/
     }catch(Exception e){
         
     }

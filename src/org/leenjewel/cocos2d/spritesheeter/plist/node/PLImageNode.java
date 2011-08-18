@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.leenjewel.cocos2d.spritesheeter.application.plnodes;
+package org.leenjewel.cocos2d.spritesheeter.plist.node;
 
 import java.awt.Image;
 import java.io.File;
@@ -14,40 +14,16 @@ import org.leenjewel.cocos2d.spritesheeter.plist.objects.PLDictionary;
  *
  * @author leenjewel
  */
-public class PLImageNode {
-    private Image _image;
+public class PLImageNode extends PLNode<Image> {
     private File _imageFile;
-    private int _x = 0, _y = 0, _offsetX = 0, _offsetY = 0;
+    private int _offsetX = 0, _offsetY = 0;
     
     public PLImageNode(String imagePath){
         _imageFile = new File(imagePath);
-        _image = new ImageIcon(imagePath).getImage();
+        _data = new ImageIcon(imagePath).getImage();
+        _name = _imageFile.getName();
     }
-    
-    public String getImageName(){
-        return _imageFile.getName();
-    }
-    
-    public Image getImage(){
-        return _image;
-    }
-    
-    public int getX(){
-        return _x;
-    }
-    
-    public void setX(int x){
-        _x = x;
-    }
-    
-    public int getY(){
-        return _y;
-    }
-    
-    public void setY(int y){
-        _y = y;
-    }
-    
+
     public int getOffsetX(){
         return _offsetX;
     }
@@ -64,12 +40,14 @@ public class PLImageNode {
         _offsetY = offsetY;
     }
     
-    public int getImageWidth(){
-        return _image.getWidth(null);
+    @Override
+    public int getWidth(){
+        return _data.getWidth(null);
     }
     
-    public int getImageHeight(){
-        return _image.getHeight(null);
+    @Override
+    public int getHeight(){
+        return _data.getHeight(null);
     }
     
     public String printOffset(){
@@ -77,11 +55,11 @@ public class PLImageNode {
     }
     
     public String printSourceSize(){
-        return "{" + String.valueOf(getImageWidth()) + ", " + String.valueOf(getImageHeight()) + "}";
+        return "{" + String.valueOf(getWidth()) + ", " + String.valueOf(getHeight()) + "}";
     }
     
     public String printFrame(){
-        return "{{" + String.valueOf(getX()) + ", " + String.valueOf(getY()) + "}, {" + String.valueOf(getImageWidth()) + ", " + String.valueOf(getImageHeight()) + "}}";
+        return "{{" + String.valueOf(getX()) + ", " + String.valueOf(getY()) + "}, {" + String.valueOf(getWidth()) + ", " + String.valueOf(getHeight()) + "}}";
     }
     
     public String printSourceColorRect(){
