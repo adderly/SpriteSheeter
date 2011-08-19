@@ -12,12 +12,22 @@ import java.awt.Image;
 import java.awt.Stroke;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import org.leenjewel.cocos2d.spritesheeter.application.logic.ILogic;
@@ -38,11 +48,13 @@ public class EditorJPanel extends JPanel {
     private PLDictionary _plDict;
     private ArrayList<IPLNode> _imageList = new ArrayList<IPLNode>();
     private HashMap<String, IPLNode> _images = new HashMap<String, IPLNode>();
+    private String _plistHead = "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+            + "<plist version=\"1.0\"></plist>";
     
     public EditorJPanel(ILogic logic){
         _logic = logic;
         setLookAndFeel();
-        init();
+        //init();
     }
     
     public void addImage(String imagePath){
@@ -50,8 +62,8 @@ public class EditorJPanel extends JPanel {
         if (null == _images.get(newImageNode.getName())){
             _images.put(newImageNode.getName(), newImageNode);
             _imageList.add(newImageNode);
-            PLDictionary frames = getFrames();
-            frames.put(newImageNode.getName(), newImageNode.makePLNode());
+            //PLDictionary frames = getFrames();
+            //frames.put(newImageNode.getName(), newImageNode.buildPLObject());
         }
     }
     
@@ -62,9 +74,69 @@ public class EditorJPanel extends JPanel {
     }
     
     public void savePList(String filePath){
-        XMLFile plist = new XMLFile("<plist version=\"1.0\"></plist>");
+        buildPList();
+        XMLFile plist = new XMLFile(_plistHead);
         plist.addNode(_plDict.toString());
         plist.save(filePath);
+    }
+    
+    public void openScriptSheeter(String filePath){
+        try{
+            ZipFile zipFile = new ZipFile(filePath);
+            Enumeration emu = zipFile.entries();
+            int i = 0;
+            while(emu.hasMoreElements()){
+                ZipEntry entry = ((ZipEntry)emu.nextElement());
+                if (entry.isDirectory()){
+                    continue;
+                }
+                BufferedInputStream bis = new BufferedInputStream(zipFile.getInputStream(entry));
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                int count;
+                byte data[] = new byte[2048];
+                while ((count = bis.read(data, 0, 2048)) != -1){
+                    bos.write(data, 0, count);
+                }
+                Image image = new ImageIcon(bos.toByteArray()).getImage();
+                bos.flush();
+                bos.close();
+                bis.close();
+            }
+            zipFile.close();
+        } catch (Exception e) {
+        
+        }
+    }
+    
+    public void saveScriptSheeter(String filePath){
+        try{
+            BufferedInputStream origin;
+            FileOutputStream dest = new FileOutputStream(filePath);
+            ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
+            byte data[] = new byte[2048];
+            for (int i = 0; i < _imageList.size(); i++){
+                PLImageNode node = ((PLImageNode)_imageList.get(i));
+                FileInputStream fi = new FileInputStream(node.getFile());
+                origin = new BufferedInputStream(fi, 2048);
+                ZipEntry entry = new ZipEntry(node.getName());
+                out.putNextEntry(entry);
+                int count;
+                while((count = origin.read(data, 0, 2048)) != -1){
+                    out.write(data, 0, count);
+                }
+                origin.close();
+            }
+
+            buildPList();
+            XMLFile plist = new XMLFile(_plistHead);
+            plist.addNode(_plDict.toString());
+            ZipEntry entry = new ZipEntry("spritesheeter.plist");
+            out.putNextEntry(entry);
+            out.write(plist.toCode().getBytes());
+            out.close();
+        } catch (Exception e){
+            
+        }
     }
     
     private void setLookAndFeel(){
@@ -79,10 +151,15 @@ public class EditorJPanel extends JPanel {
         }
     }
     
-    private void init(){
+    private void buildPList(){
         _plDict = new PLDictionary();
         initFrames();
         initMetadata();
+        PLDictionary frames = ((PLDictionary)_plDict.get("frames"));
+        for (int i = 0; i < _imageList.size(); i++){
+            IPLNode node = _imageList.get(i);
+            frames.put(node.getName(), node.buildPLObject());
+        }
     }
     
     private void initFrames(){
@@ -108,7 +185,7 @@ public class EditorJPanel extends JPanel {
         metadataDict.put("size", size);
         _plDict.put("metadata", metadataDict);
     }
-    
+
     private void sortImageNode(){
         Collections.sort(_imageList, new PLNodeSort(_logic));
     }

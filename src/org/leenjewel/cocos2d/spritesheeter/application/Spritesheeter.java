@@ -372,6 +372,11 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         });
 
         jButton_export_coordinates_save.setText("Coordinates Save");
+        jButton_export_coordinates_save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_export_coordinates_saveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel_exportLayout = new javax.swing.GroupLayout(jPanel_export);
         jPanel_export.setLayout(jPanel_exportLayout);
@@ -488,6 +493,20 @@ private void jButton_export_texture_saveActionPerformed(java.awt.event.ActionEve
         
     }
 }//GEN-LAST:event_jButton_export_texture_saveActionPerformed
+
+private void jButton_export_coordinates_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_export_coordinates_saveActionPerformed
+    String fileName = "new";
+    EditorJPanel editor = ((EditorJPanel)this.jTabbedPane_main.getSelectedComponent());
+    JFileChooser jFileChooser_save = new JFileChooser();
+    FileNameExtensionFilter imageFileFilter = new FileNameExtensionFilter("spritesheeter","spritesheeter");
+    jFileChooser_save.addChoosableFileFilter(imageFileFilter);
+    jFileChooser_save.setSelectedFile(new File(fileName + ".spritesheeter"));
+    int saveFileId = jFileChooser_save.showSaveDialog(null);
+    if (saveFileId == JFileChooser.APPROVE_OPTION){
+        File saveFile = jFileChooser_save.getSelectedFile();
+        editor.saveScriptSheeter(saveFile.getPath());
+    }
+}//GEN-LAST:event_jButton_export_coordinates_saveActionPerformed
 
     /**
      * @param args the command line arguments

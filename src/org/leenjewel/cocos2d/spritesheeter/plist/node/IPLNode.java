@@ -4,6 +4,8 @@
  */
 package org.leenjewel.cocos2d.spritesheeter.plist.node;
 
+import org.leenjewel.cocos2d.spritesheeter.plist.PLObject;
+
 /**
  *
  * @author leenjewel
@@ -29,4 +31,6 @@ public interface IPLNode<dataType> {
     public int getHeight();
     
     public void setHeight(int height);
+    
+    public PLObject buildPLObject();
 }

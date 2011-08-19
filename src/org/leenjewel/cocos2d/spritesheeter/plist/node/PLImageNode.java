@@ -23,6 +23,10 @@ public class PLImageNode extends PLNode<Image> {
         _data = new ImageIcon(imagePath).getImage();
         _name = _imageFile.getName();
     }
+    
+    public File getFile(){
+        return _imageFile;
+    }
 
     public int getOffsetX(){
         return _offsetX;
@@ -66,7 +70,8 @@ public class PLImageNode extends PLNode<Image> {
         return printFrame();
     }
     
-    public PLObject makePLNode(){
+    @Override
+    public PLObject buildPLObject(){
         PLDictionary node = new PLDictionary();
         node.put("frame", printFrame());
         node.put("offset", printOffset());
