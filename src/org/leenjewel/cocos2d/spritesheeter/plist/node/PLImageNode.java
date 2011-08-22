@@ -4,9 +4,10 @@
  */
 package org.leenjewel.cocos2d.spritesheeter.plist.node;
 
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import javax.swing.ImageIcon;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import org.leenjewel.cocos2d.spritesheeter.plist.PLObject;
 import org.leenjewel.cocos2d.spritesheeter.plist.objects.PLDictionary;
 
@@ -14,20 +15,20 @@ import org.leenjewel.cocos2d.spritesheeter.plist.objects.PLDictionary;
  *
  * @author leenjewel
  */
-public class PLImageNode extends PLNode<Image> {
-    private File _imageFile;
+public class PLImageNode extends PLNode<BufferedImage> {
+    private BufferedImage _imageBuffer;
     private int _offsetX = 0, _offsetY = 0;
     
-    public PLImageNode(String imagePath){
-        _imageFile = new File(imagePath);
-        _data = new ImageIcon(imagePath).getImage();
-        _name = _imageFile.getName();
+    public PLImageNode(File imageFile) throws IOException{
+        _data = ImageIO.read(imageFile);
+        _name = imageFile.getName();
     }
     
-    public File getFile(){
-        return _imageFile;
+    public PLImageNode(BufferedImage imageBuffer, String name){
+        _data = imageBuffer;
+        _name = name;
     }
-
+    
     public int getOffsetX(){
         return _offsetX;
     }

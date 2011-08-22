@@ -29,6 +29,24 @@ public interface ILogic {
     
     public LayoutOrder getLayoutOrder();
     
+    public void setCanvasWidth(int width);
+    
+    public void setCanvasHeight(int height);
+    
+    public void setCanvasBackground(Color color);
+    
+    public void setCanvasCheckerbard(boolean isCheckerboard);
+    
+    public void setLayoutRowPadding(int rowPadding);
+    
+    public void setLayoutColumnPadding(int columnPadding);
+    
+    public void setLayoutSortOn(SortOn sortOn);
+    
+    public void setLayoutSortOrder(SortOrder sortOrder);
+    
+    public void setLayoutOrder(LayoutOrder layoutOrder);
+    
     public void onApply();
     
     public void onTextureSave();

@@ -31,6 +31,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import org.leenjewel.cocos2d.spritesheeter.application.logic.ILogic;
+import org.leenjewel.cocos2d.spritesheeter.plist.PListDecoder;
 import org.leenjewel.cocos2d.spritesheeter.plist.node.IPLNode;
 import org.leenjewel.cocos2d.spritesheeter.plist.node.PLImageNode;
 import org.leenjewel.cocos2d.spritesheeter.plist.node.PLNodeSort;
@@ -57,13 +58,18 @@ public class EditorJPanel extends JPanel {
         //init();
     }
     
-    public void addImage(String imagePath){
-        PLImageNode newImageNode = new PLImageNode(imagePath);
-        if (null == _images.get(newImageNode.getName())){
-            _images.put(newImageNode.getName(), newImageNode);
-            _imageList.add(newImageNode);
-            //PLDictionary frames = getFrames();
-            //frames.put(newImageNode.getName(), newImageNode.buildPLObject());
+    public void addImage(File imageFile) throws IOException{
+        addImage(new PLImageNode(imageFile));
+    }
+    
+    public void addImage(BufferedImage imageBuffer, String imageName){
+        addImage(new PLImageNode(imageBuffer, imageName));
+    }
+    
+    public void addImage(PLImageNode imageNode){
+        if (null == _images.get(imageNode.getName())){
+            _images.put(imageNode.getName(), imageNode);
+            _imageList.add(imageNode);
         }
     }
     
@@ -80,9 +86,9 @@ public class EditorJPanel extends JPanel {
         plist.save(filePath);
     }
     
-    public void openScriptSheeter(String filePath){
+    public void openScriptSheeter(File zip){
         try{
-            ZipFile zipFile = new ZipFile(filePath);
+            ZipFile zipFile = new ZipFile(zip);
             Enumeration emu = zipFile.entries();
             int i = 0;
             while(emu.hasMoreElements()){
@@ -91,20 +97,26 @@ public class EditorJPanel extends JPanel {
                     continue;
                 }
                 BufferedInputStream bis = new BufferedInputStream(zipFile.getInputStream(entry));
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                int count;
-                byte data[] = new byte[2048];
-                while ((count = bis.read(data, 0, 2048)) != -1){
-                    bos.write(data, 0, count);
+                if ("spritesheeter.plist".equals(entry.getName())){
+                    XMLFile plistXML = new XMLFile(bis);
+                    decodePListXML(plistXML);
+                } else {
+                    BufferedImage imageBuffer = ImageIO.read(bis);
+                    addImage(imageBuffer, entry.getName());
                 }
-                Image image = new ImageIcon(bos.toByteArray()).getImage();
-                bos.flush();
-                bos.close();
                 bis.close();
             }
             zipFile.close();
         } catch (Exception e) {
         
+        }
+        this.repaint();
+    }
+    
+    public void decodePListXML(XMLFile plistXML){
+        XMLFile rootDict = plistXML.get("dict");
+        if (null != rootDict){
+            _plDict = (PLDictionary) PListDecoder.decode(rootDict);
         }
     }
     
@@ -116,15 +128,17 @@ public class EditorJPanel extends JPanel {
             byte data[] = new byte[2048];
             for (int i = 0; i < _imageList.size(); i++){
                 PLImageNode node = ((PLImageNode)_imageList.get(i));
-                FileInputStream fi = new FileInputStream(node.getFile());
-                origin = new BufferedInputStream(fi, 2048);
+                //FileInputStream fi = new FileInputStream(node.getFile());
+                //origin = new BufferedInputStream(fi, 2048);
                 ZipEntry entry = new ZipEntry(node.getName());
                 out.putNextEntry(entry);
-                int count;
-                while((count = origin.read(data, 0, 2048)) != -1){
-                    out.write(data, 0, count);
-                }
-                origin.close();
+                String[] names = node.getName().split("[.]");
+                ImageIO.write(node.getData(), names[names.length-1], out);
+                //int count;
+                //while((count = origin.read(data, 0, 2048)) != -1){
+                    //out.write(data, 0, count);
+                //}
+                //origin.close();
             }
 
             buildPList();
@@ -132,11 +146,39 @@ public class EditorJPanel extends JPanel {
             plist.addNode(_plDict.toString());
             ZipEntry entry = new ZipEntry("spritesheeter.plist");
             out.putNextEntry(entry);
-            out.write(plist.toCode().getBytes());
+            out.write(saveOptionToXML().toCode().getBytes());
             out.close();
         } catch (Exception e){
             
         }
+    }
+    
+    private void openOptionFromXML(XMLFile xml){
+        XMLFile canvas = xml.get("Canvas");
+        XMLFile layout = xml.get("Layout");
+        XMLFile sprites = xml.get("Sprites");
+    }
+    
+    private XMLFile saveOptionToXML(){
+        XMLFile result = new XMLFile("<SpriteSheeter></SpriteSheeter>");
+        XMLFile canvas = result.addNode("<Canvas></Canvas>");
+        XMLFile layout = result.addNode("<Layout></Layout>");
+        XMLFile sprites = result.addNode("<Sprites></Sprites>");
+        
+        canvas.addNode("<Width>"+String.valueOf(_logic.getCanvasWidth()) +"</Width>");
+        canvas.addNode("<Height>"+String.valueOf(_logic.getCanvasHeight()) +"</Height>");
+        //canvas.addNode("<Background>"+String.valueOf(_logic.getCanvasBackground()) +"</Background>");
+        canvas.addNode("<Checkerboard>"+String.valueOf((_logic.getCanvasCheckerbard() ? "true" : "false")) +"</Checkerboard>");
+        
+        layout.addNode("<SortOn>"+String.valueOf(_logic.getLayoutSortOn()) +"</SortOn>");
+        layout.addNode("<SortOrder>"+String.valueOf(_logic.getLayoutSortOrder()) +"</SortOrder>");
+        layout.addNode("<LayoutOrder>"+String.valueOf(_logic.getLayoutOrder()) +"</LayoutOrder>");
+        layout.addNode("<RowPadding>"+String.valueOf(_logic.getLayoutRowPadding()) +"</RowPadding>");
+        layout.addNode("<ColumnPadding>"+String.valueOf(_logic.getLayoutColumnPadding()) +"</ColumnPadding>");
+        
+        sprites.addNode("<SelectorColor></SelectorColor>");
+        sprites.addNode("<BackgroundColor></BackgroundColor>");
+        return result;
     }
     
     private void setLookAndFeel(){

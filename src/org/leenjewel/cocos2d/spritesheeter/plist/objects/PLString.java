@@ -13,7 +13,7 @@ import org.leenjewel.cocos2d.spritesheeter.plist.PLType;
  */
 public class PLString extends PLObject<String> {
 
-    PLString(String value){
+    public PLString(String value){
         _value = value;
     }
     

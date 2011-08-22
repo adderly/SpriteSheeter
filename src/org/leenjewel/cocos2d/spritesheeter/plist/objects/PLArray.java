@@ -13,8 +13,12 @@ import org.leenjewel.cocos2d.spritesheeter.plist.PLType;
  * @author leenjewel
  */
 public class PLArray extends PLObject<ArrayList<PLObject>> {
-    PLArray(ArrayList value){
+    public PLArray(ArrayList value){
         _value = value;
+    }
+    
+    public PLArray() {
+        _value = new ArrayList<PLObject>();
     }
     
     @Override

@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -64,6 +65,13 @@ public class XMLFile {
     	Document doc = db.parse(xmlFile);
     	this.xml_root = doc.getDocumentElement();
     }
+    
+    public XMLFile(InputStream in) throws ParserConfigurationException, SAXException, IOException{
+        DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();  
+    	DocumentBuilder db=dbf.newDocumentBuilder();
+    	Document doc = db.parse(in);
+        this.xml_root = doc.getDocumentElement();
+    }
 
     public XMLFile(Element xml_root){
         this.xml_root = xml_root;
@@ -98,6 +106,18 @@ public class XMLFile {
 
     public String getText(){
         return this.xml_root.getTextContent();
+    }
+    
+    public int getInteger(){
+        return Integer.valueOf(xml_root.getTextContent());
+    }
+    
+    public float getFloat(){
+        return Float.valueOf(xml_root.getTextContent());
+    }
+    
+    public double getDouble(){
+        return Double.valueOf(xml_root.getTextContent());
     }
 
     public void setText(String text){

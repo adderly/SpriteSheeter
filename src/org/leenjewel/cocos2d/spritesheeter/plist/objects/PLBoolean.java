@@ -12,7 +12,7 @@ import org.leenjewel.cocos2d.spritesheeter.plist.PLType;
  * @author leenjewel
  */
 public class PLBoolean extends PLObject<Boolean> {
-    PLBoolean(boolean value){
+    public PLBoolean(boolean value){
         _value = value;
     }
     

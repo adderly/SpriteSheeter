@@ -11,7 +11,6 @@
 package org.leenjewel.cocos2d.spritesheeter.application;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -28,7 +27,6 @@ import org.leenjewel.cocos2d.spritesheeter.application.logic.LayoutOrder;
 import org.leenjewel.cocos2d.spritesheeter.application.logic.SortOn;
 import org.leenjewel.cocos2d.spritesheeter.application.logic.SortOrder;
 import org.leenjewel.cocos2d.spritesheeter.application.panel.EditorJPanel;
-import org.leenjewel.cocos2d.spritesheeter.application.panel.JScrollPaneWithNotePanel;
 import org.leenjewel.cocos2d.spritesheeter.application.panel.JTabbedPaneWithCloseIcons;
 
 /**
@@ -78,6 +76,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                 
                 EditorJPanel editor = ((EditorJPanel)jTabbedPane_main.getSelectedComponent());
                 FileNameExtensionFilter imageFileFilter = new FileNameExtensionFilter("", "jpg", "jpeg", "png", "gif");
+                FileNameExtensionFilter spritesheetFileFilter = new FileNameExtensionFilter("spritesheeter", "spritesheeter");
                 for (int i = 0; i < flavors.length; i++){
                     DataFlavor d = flavors[i];
                     //判断内容数据格式是文件列表（windows only）
@@ -88,8 +87,11 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                             for (Object f : fileList){
                                 String fileName = ((File)f).getName();
                                 if (imageFileFilter.accept(((File)f))){
-                                    editor.addImage(((File)f).getPath());
-                                }else{
+                                    editor.addImage(((File)f));
+                                }else if (spritesheetFileFilter.accept((File)f)){
+                                    editor.openScriptSheeter((File)f);
+                                }
+                                else{
                                     //tell user is error!
                                 }
                             }
@@ -103,8 +105,11 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                                 String fileName = fileList[fileList.length - 1];
                                 File openFile = new File(filePath);
                                 if (imageFileFilter.accept(openFile)){
-                                    editor.addImage(filePath);
-                                }else{
+                                    editor.addImage(openFile);
+                                }else if (spritesheetFileFilter.accept(openFile)){
+                                    editor.openScriptSheeter(openFile);
+                                }
+                                else{
                                     //tell user error;
                                 }
                             }
@@ -661,5 +666,50 @@ private void jButton_export_coordinates_saveActionPerformed(java.awt.event.Actio
     @Override
     public void onCoordinatesSave() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setCanvasWidth(int width) {
+        this.jSpinner_canvas_width.setValue(width);
+    }
+
+    @Override
+    public void setCanvasHeight(int height) {
+        this.jSpinner_canvas_height.setValue(height);
+    }
+
+    @Override
+    public void setCanvasBackground(Color color) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setCanvasCheckerbard(boolean isCheckerboard) {
+        this.jCheckBox_canvas_checkerbard.setSelected(isCheckerboard);
+    }
+
+    @Override
+    public void setLayoutRowPadding(int rowPadding) {
+        this.jTextField_layout_row_padding.setText(String.valueOf(rowPadding)+"px");
+    }
+
+    @Override
+    public void setLayoutColumnPadding(int columnPadding) {
+        this.jTextField_layout_column_padding.setText(String.valueOf(columnPadding)+"px");
+    }
+
+    @Override
+    public void setLayoutSortOn(SortOn sortOn) {
+        this.jComboBox_layout_sort_on.setSelectedItem(sortOn);
+    }
+
+    @Override
+    public void setLayoutSortOrder(SortOrder sortOrder) {
+        this.jComboBox_layout_sort_order.setSelectedItem(sortOrder);
+    }
+
+    @Override
+    public void setLayoutOrder(LayoutOrder layoutOrder) {
+        this.jComboBox_layout_layout_order.setSelectedItem(layoutOrder);
     }
 }

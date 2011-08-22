@@ -12,7 +12,7 @@ import org.leenjewel.cocos2d.spritesheeter.plist.PLType;
  * @author leenjewel
  */
 public class PLReal extends PLObject<Float> {
-    PLReal(float value){
+    public PLReal(float value){
         _value = value;
     }
     

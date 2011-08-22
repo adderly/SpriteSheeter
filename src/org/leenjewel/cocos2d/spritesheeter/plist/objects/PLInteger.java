@@ -12,7 +12,7 @@ import org.leenjewel.cocos2d.spritesheeter.plist.PLType;
  * @author leenjewel
  */
 public class PLInteger extends PLObject<Integer> {
-    PLInteger(int value){
+    public PLInteger(int value){
         _value = value;
     }
     
