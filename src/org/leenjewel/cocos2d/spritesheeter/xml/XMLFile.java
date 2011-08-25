@@ -119,6 +119,10 @@ public class XMLFile {
     public double getDouble(){
         return Double.valueOf(xml_root.getTextContent());
     }
+    
+    public boolean getBoolean(){
+        return "true".equals(getText().toLowerCase());
+    }
 
     public void setText(String text){
         this.xml_root.setTextContent(text);

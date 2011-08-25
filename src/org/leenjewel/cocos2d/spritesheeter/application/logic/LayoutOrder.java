@@ -9,6 +9,29 @@ package org.leenjewel.cocos2d.spritesheeter.application.logic;
  * @author leenjewel
  */
 public enum LayoutOrder {
-    RowFirst,
-    ColumnFirst
+    RowFirst{
+        @Override
+        public String toString(){
+            return "Row";
+        }
+    },
+    ColumnFirst{
+        @Override
+        public String toString(){
+            return "Column";
+        }
+    };
+    
+    @Override
+    public abstract String toString();
+    
+    public static LayoutOrder getByString(String s){
+        if ("Row".equals(s)){
+            return RowFirst;
+        } else if ("Column".equals(s)){
+            return ColumnFirst;
+        } else {
+            return null;
+        }
+    }
 }

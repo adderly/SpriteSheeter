@@ -31,6 +31,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import org.leenjewel.cocos2d.spritesheeter.application.logic.ILogic;
+import org.leenjewel.cocos2d.spritesheeter.application.logic.LayoutOrder;
+import org.leenjewel.cocos2d.spritesheeter.application.logic.SortOn;
+import org.leenjewel.cocos2d.spritesheeter.application.logic.SortOrder;
 import org.leenjewel.cocos2d.spritesheeter.plist.PListDecoder;
 import org.leenjewel.cocos2d.spritesheeter.plist.node.IPLNode;
 import org.leenjewel.cocos2d.spritesheeter.plist.node.PLImageNode;
@@ -99,7 +102,8 @@ public class EditorJPanel extends JPanel {
                 BufferedInputStream bis = new BufferedInputStream(zipFile.getInputStream(entry));
                 if ("spritesheeter.plist".equals(entry.getName())){
                     XMLFile plistXML = new XMLFile(bis);
-                    decodePListXML(plistXML);
+                    //decodePListXML(plistXML);
+                    openOptionFromXML(plistXML);
                 } else {
                     BufferedImage imageBuffer = ImageIO.read(bis);
                     addImage(imageBuffer, entry.getName());
@@ -157,6 +161,21 @@ public class EditorJPanel extends JPanel {
         XMLFile canvas = xml.get("Canvas");
         XMLFile layout = xml.get("Layout");
         XMLFile sprites = xml.get("Sprites");
+        
+        if (null != canvas){
+            _logic.setCanvasWidth(canvas.get("Width").getInteger());
+            _logic.setCanvasHeight(canvas.get("Height").getInteger());
+            _logic.setCanvasCheckerbard(canvas.get("Checkerboard").getBoolean());
+            //_logic.setCanvasBackground();
+        }
+        
+        if (null != layout){
+            _logic.setLayoutSortOn(SortOn.getByString(layout.get("SortOn").getText()));
+            _logic.setLayoutSortOrder(SortOrder.getByString(layout.get("SortOrder").getText()));
+            _logic.setLayoutOrder(LayoutOrder.getByString(layout.get("LayoutOrder").getText()));
+            _logic.setLayoutRowPadding(layout.get("RowPadding").getInteger());
+            _logic.setLayoutColumnPadding(layout.get("ColumnPadding").getInteger());
+        }
     }
     
     private XMLFile saveOptionToXML(){

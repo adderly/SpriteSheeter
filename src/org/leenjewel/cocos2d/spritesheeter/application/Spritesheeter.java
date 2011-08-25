@@ -700,16 +700,16 @@ private void jButton_export_coordinates_saveActionPerformed(java.awt.event.Actio
 
     @Override
     public void setLayoutSortOn(SortOn sortOn) {
-        this.jComboBox_layout_sort_on.setSelectedItem(sortOn);
+        this.jComboBox_layout_sort_on.setSelectedItem(sortOn.toString());
     }
 
     @Override
     public void setLayoutSortOrder(SortOrder sortOrder) {
-        this.jComboBox_layout_sort_order.setSelectedItem(sortOrder);
+        this.jComboBox_layout_sort_order.setSelectedItem(sortOrder.toString());
     }
 
     @Override
     public void setLayoutOrder(LayoutOrder layoutOrder) {
-        this.jComboBox_layout_layout_order.setSelectedItem(layoutOrder);
+        this.jComboBox_layout_layout_order.setSelectedItem(layoutOrder.toString());
     }
 }
