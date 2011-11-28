@@ -78,6 +78,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                 FileNameExtensionFilter imageFileFilter = new FileNameExtensionFilter("", "jpg", "jpeg", "png", "gif");
                 FileNameExtensionFilter spritesheetFileFilter = new FileNameExtensionFilter("spritesheeter", "spritesheeter");
                 for (int i = 0; i < flavors.length; i++){
+                    System.out.println("------ "+String.valueOf(i));
                     DataFlavor d = flavors[i];
                     //判断内容数据格式是文件列表（windows only）
                     try{
@@ -94,6 +95,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                                 else{
                                     //tell user is error!
                                 }
+                                editor.repaint();
                             }
                         }else if (d.equals(DataFlavor.stringFlavor)){
                             String filePath = ((String)transferable.getTransferData(d));
@@ -112,6 +114,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                                 else{
                                     //tell user error;
                                 }
+                                editor.repaint();
                             }
                         }
                     }catch(Exception e){
@@ -120,7 +123,6 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                 }
                 //强制拖放结束
                 dtde.dropComplete(true);
-                editor.repaint();
             }
             
         }

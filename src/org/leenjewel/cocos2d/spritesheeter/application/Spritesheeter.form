@@ -23,7 +23,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jToolBar_spritesheeter" alignment="0" pref="1275" max="32767" attributes="0"/>
+          <Component id="jToolBar_spritesheeter" alignment="0" pref="1290" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel_tools" min="-2" max="-2" attributes="0"/>
@@ -119,7 +119,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="64" max="32767" attributes="0"/>
+                      <EmptySpace pref="81" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jCheckBox_canvas_checkerbard" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
@@ -227,12 +227,12 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jLabel_layout_sort_order" pref="129" max="32767" attributes="0"/>
-                          <Component id="jLabel_layout_sort_on" alignment="1" pref="129" max="32767" attributes="0"/>
-                          <Component id="jLabel_layout_layout_order" alignment="1" pref="129" max="32767" attributes="0"/>
-                          <Component id="jLabel_layout_row_padding" alignment="1" pref="129" max="32767" attributes="0"/>
-                          <Component id="jLabel_layout_column_padding" alignment="1" pref="129" max="32767" attributes="0"/>
-                          <Component id="jLabel_layout_layout" alignment="1" pref="129" max="32767" attributes="0"/>
+                          <Component id="jLabel_layout_sort_order" pref="146" max="32767" attributes="0"/>
+                          <Component id="jLabel_layout_sort_on" alignment="1" pref="146" max="32767" attributes="0"/>
+                          <Component id="jLabel_layout_layout_order" alignment="1" pref="146" max="32767" attributes="0"/>
+                          <Component id="jLabel_layout_row_padding" alignment="1" pref="146" max="32767" attributes="0"/>
+                          <Component id="jLabel_layout_column_padding" alignment="1" pref="146" max="32767" attributes="0"/>
+                          <Component id="jLabel_layout_layout" alignment="1" pref="146" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -279,7 +279,7 @@
                           <Component id="jButton_layout_apply" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel_layout_layout" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="99" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -380,8 +380,8 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jLabel_sprites_selection_color" pref="133" max="32767" attributes="1"/>
-                          <Component id="jLabel_sprites_background_color" alignment="1" max="32767" attributes="1"/>
+                          <Component id="jLabel_sprites_selection_color" pref="150" max="32767" attributes="1"/>
+                          <Component id="jLabel_sprites_background_color" alignment="1" pref="150" max="32767" attributes="1"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">

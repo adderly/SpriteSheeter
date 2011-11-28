@@ -6,6 +6,7 @@ package org.leenjewel.cocos2d.spritesheeter.application.panel;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -303,9 +304,14 @@ public class EditorJPanel extends JPanel {
     
     private void onDraw(Graphics g){
         g.drawImage(createCanvas(), 0, 0, this);
+        this.revalidate();
     }
     
     private BufferedImage createCanvas(){
+        Dimension s = this.getSize();
+        int w = (s.width < _logic.getCanvasWidth() ? _logic.getCanvasWidth() : s.width);
+        int h = (s.height < _logic.getCanvasHeight() ? _logic.getCanvasHeight() : s.height);
+        this.setPreferredSize(new Dimension(w, h));
         _canvasBackground = new BufferedImage(
                 _logic.getCanvasWidth(),
                 _logic.getCanvasHeight(),
