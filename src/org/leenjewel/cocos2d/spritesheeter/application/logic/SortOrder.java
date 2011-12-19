@@ -9,6 +9,12 @@ package org.leenjewel.cocos2d.spritesheeter.application.logic;
  * @author leenjewel
  */
 public enum SortOrder {
+    SortOrderCustom{
+        @Override
+        public String toString(){
+            return "Custom";
+        }
+    },
     SortOrderAscending{
         @Override
         public String toString(){
@@ -30,7 +36,9 @@ public enum SortOrder {
             return SortOrderAscending;
         } else if ("Descending".equals(s)){
             return SortOrderDescending;
-        } else {
+        } else if ("Custom".equals(s)){
+            return SortOrderCustom;
+        }else {
             return null;
         }
     }

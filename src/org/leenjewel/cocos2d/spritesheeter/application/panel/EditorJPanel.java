@@ -15,10 +15,12 @@ import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,6 +77,21 @@ public class EditorJPanel extends JPanel {
             _images.put(imageNode.getName(), imageNode);
             _imageList.add(imageNode);
         }
+    }
+    
+    public void saveCss(String cssPath) throws IOException {
+        String result = "";
+        for (int i = 0; i < _imageList.size(); i++){
+            IPLNode node = _imageList.get(i);
+            result += "\n." + node.getName().split("[.]")[0] + "{\n";
+            result += "    background-position:-" + String.valueOf(node.getX()) + "px -" + String.valueOf(node.getY()) + "px;\n";
+            result += "    width:" + String.valueOf(node.getWidth()) + "px;\n";
+            result += "    height:" + String.valueOf(node.getHeight()) + "px;\n";
+            result += "}\n";
+        }
+        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(cssPath), true));
+        writer.write(result);
+        writer.close();
     }
     
     public void saveImage(File imageFile) throws IOException{
@@ -253,52 +270,43 @@ public class EditorJPanel extends JPanel {
     }
     
     private void readyImageNode(){
-        sortImageNode();
-        int nx = _logic.getLayoutRowPadding(), ny = _logic.getLayoutColumnPadding(), mwidth = 0, mheight = 0;
+        if (_logic.getLayoutSortOrder() != SortOrder.SortOrderCustom){
+            sortImageNode();
+        }
+        int nx = _logic.getLayoutRowPadding(), ny = _logic.getLayoutColumnPadding(), mwidth = 0, mheight = 0, lastWidth = 0, lastHeight = 0;
         for (int i = 0; i < _imageList.size(); i++){
             IPLNode node = _imageList.get(i);
-            node.setX(nx);
-            node.setY(ny);
-            int iw = nx + _logic.getLayoutRowPadding() + node.getWidth();
-            int ih = ny + _logic.getLayoutColumnPadding() + node.getHeight();
-            switch (_logic.getLayoutOrder()){
-                case RowFirst:
-                    if (iw > _logic.getCanvasWidth()){
-                        nx = _logic.getLayoutRowPadding();
-                        ny += _logic.getLayoutColumnPadding() + mheight;
-                        mheight = 0;
-                    }else{
-                        nx += node.getWidth() + _logic.getLayoutRowPadding();
-                        if (node.getHeight() >= mheight){
-                            mheight = node.getHeight();
-                        }
-                    }
-                    break;
-                case ColumnFirst:
-                    if (ih > _logic.getCanvasHeight()){
-                        nx += _logic.getLayoutRowPadding() + mwidth;
-                        ny = _logic.getLayoutColumnPadding();
-                        mwidth = 0;
-                    }else{
-                        ny += node.getHeight() + _logic.getLayoutColumnPadding();
-                        if (node.getWidth() >= mwidth){
-                            mwidth = node.getWidth();
-                        }
-                    }
-                    break;
-                default:
-                    if (iw > _logic.getCanvasWidth()){
-                        nx = _logic.getLayoutRowPadding();
-                        ny += _logic.getLayoutColumnPadding() + mheight;
-                        mheight = 0;
-                    }else{
-                        nx += node.getWidth() + _logic.getLayoutRowPadding();
-                        if (node.getHeight() >= mheight){
-                            mheight = node.getHeight();
-                        }
-                    }
-                    break;
+            if (_logic.getLayoutOrder() == LayoutOrder.RowFirst){
+                if (nx + node.getWidth() + lastWidth > _logic.getCanvasWidth() && mwidth <= 0){
+                    continue;
+                }
+                if (nx + node.getWidth() + lastWidth > _logic.getCanvasWidth()) {
+                    node.setX(nx);
+                    node.setY(mheight + ny);
+                    lastWidth = 0;
+                    ny += mheight;
+                } else {
+                    node.setX(nx + lastWidth);
+                    node.setY(ny);
+                }
+            } else if (_logic.getLayoutOrder() == LayoutOrder.ColumnFirst){
+                if (ny + node.getHeight() + lastHeight > _logic.getCanvasHeight() && mheight <= 0){
+                    continue;
+                }
+                if (ny + node.getHeight() + lastHeight > _logic.getCanvasHeight()) {
+                    node.setX(mwidth + nx);
+                    node.setY(ny);
+                    lastHeight = 0;
+                    nx += mwidth;
+                } else {
+                    node.setX(nx);
+                    node.setY(ny + lastHeight);
+                }
             }
+            lastWidth += node.getWidth();
+            lastHeight += node.getHeight();
+            if (lastWidth > mwidth) { mwidth = lastWidth; }
+            if (lastHeight > mheight) { mheight = lastHeight; }
         }
     }
     

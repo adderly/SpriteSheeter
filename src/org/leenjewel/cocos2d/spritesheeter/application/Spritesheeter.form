@@ -298,9 +298,10 @@
             <Component class="javax.swing.JComboBox" name="jComboBox_layout_sort_order">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
-                    <StringItem index="0" value="Ascending"/>
-                    <StringItem index="1" value="Descending"/>
+                  <StringArray count="3">
+                    <StringItem index="0" value="Custom"/>
+                    <StringItem index="1" value="Ascending"/>
+                    <StringItem index="2" value="Descending"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -317,12 +318,12 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField_layout_row_padding">
               <Properties>
-                <Property name="text" type="java.lang.String" value="1px"/>
+                <Property name="text" type="java.lang.String" value="0px"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField_layout_column_padding">
               <Properties>
-                <Property name="text" type="java.lang.String" value="1px"/>
+                <Property name="text" type="java.lang.String" value="0px"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButton_layout_apply">

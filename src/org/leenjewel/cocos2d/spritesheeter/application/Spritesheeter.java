@@ -213,7 +213,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         jPanel_canvasLayout.setHorizontalGroup(
             jPanel_canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_canvasLayout.createSequentialGroup()
-                .addContainerGap(64, Short.MAX_VALUE)
+                .addContainerGap(81, Short.MAX_VALUE)
                 .addGroup(jPanel_canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckBox_canvas_checkerbard)
                     .addGroup(jPanel_canvasLayout.createSequentialGroup()
@@ -251,13 +251,13 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
 
         jComboBox_layout_sort_on.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Width", "Height" }));
 
-        jComboBox_layout_sort_order.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ascending", "Descending" }));
+        jComboBox_layout_sort_order.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Custom", "Ascending", "Descending" }));
 
         jComboBox_layout_layout_order.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Row First", "Column First" }));
 
-        jTextField_layout_row_padding.setText("1px");
+        jTextField_layout_row_padding.setText("0px");
 
-        jTextField_layout_column_padding.setText("1px");
+        jTextField_layout_column_padding.setText("0px");
 
         jButton_layout_apply.setText("Apply");
         jButton_layout_apply.addActionListener(new java.awt.event.ActionListener() {
@@ -285,12 +285,12 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_layoutLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel_layout_sort_order, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                    .addComponent(jLabel_layout_sort_on, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                    .addComponent(jLabel_layout_layout_order, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                    .addComponent(jLabel_layout_row_padding, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                    .addComponent(jLabel_layout_column_padding, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                    .addComponent(jLabel_layout_layout, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE))
+                    .addComponent(jLabel_layout_sort_order, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(jLabel_layout_sort_on, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(jLabel_layout_layout_order, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(jLabel_layout_row_padding, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(jLabel_layout_column_padding, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(jLabel_layout_layout, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton_layout_apply, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -327,7 +327,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                 .addGroup(jPanel_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_layout_apply)
                     .addComponent(jLabel_layout_layout))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
 
         jPanel_sprites.setBorder(javax.swing.BorderFactory.createTitledBorder("Sprites"));
@@ -347,8 +347,8 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_spritesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel_spritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel_sprites_selection_color, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-                    .addComponent(jLabel_sprites_background_color, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel_sprites_selection_color, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(jLabel_sprites_background_color, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel_spritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton_sprites_selection_color, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -439,7 +439,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar_spritesheeter, javax.swing.GroupLayout.DEFAULT_SIZE, 1275, Short.MAX_VALUE)
+            .addComponent(jToolBar_spritesheeter, javax.swing.GroupLayout.DEFAULT_SIZE, 1290, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel_tools, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -485,6 +485,7 @@ private void jButton_export_texture_saveActionPerformed(java.awt.event.ActionEve
             editor.saveImage(saveFile);
             fileName = saveFile.getName().split("[.]")[0];
             editor.savePList(saveFile.getPath().replace(saveFile.getName(), "")+fileName+".plist");
+            editor.saveCss(saveFile.getPath().replace(saveFile.getName(), "")+fileName+".css");
         }
         /*
         jFileChooser_save = new JFileChooser();
@@ -634,8 +635,10 @@ private void jButton_export_coordinates_saveActionPerformed(java.awt.event.Actio
         int select = this.jComboBox_layout_sort_order.getSelectedIndex();
         switch (select){
             case 0:
-                return SortOrder.SortOrderAscending;
+                return SortOrder.SortOrderCustom;
             case 1:
+                return SortOrder.SortOrderAscending;
+            case 2:
                 return SortOrder.SortOrderDescending;
             default:
                 return SortOrder.SortOrderAscending;
