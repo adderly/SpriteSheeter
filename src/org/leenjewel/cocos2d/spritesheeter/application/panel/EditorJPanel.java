@@ -16,9 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,7 +28,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import org.leenjewel.cocos2d.spritesheeter.application.logic.ILogic;
@@ -273,38 +270,42 @@ public class EditorJPanel extends JPanel {
         if (_logic.getLayoutSortOrder() != SortOrder.SortOrderCustom){
             sortImageNode();
         }
-        int nx = _logic.getLayoutRowPadding(), ny = _logic.getLayoutColumnPadding(), mwidth = 0, mheight = 0, lastWidth = 0, lastHeight = 0;
+        int mwidth = 0, mheight = 0, lastWidth = 0, lastHeight = 0;
+        int padding_x = _logic.getLayoutRowPadding();
+        int padding_y = _logic.getLayoutColumnPadding();
+        int nx = padding_x;
+        int ny = padding_y;
         for (int i = 0; i < _imageList.size(); i++){
             IPLNode node = _imageList.get(i);
             if (_logic.getLayoutOrder() == LayoutOrder.RowFirst){
-                if (nx + node.getWidth() + lastWidth > _logic.getCanvasWidth() && mwidth <= 0){
+                if (lastWidth <= 0 && nx + node.getWidth() > _logic.getCanvasWidth()){
+                    node.setX(-1);
+                    node.setY(-1);
                     continue;
                 }
-                if (nx + node.getWidth() + lastWidth > _logic.getCanvasWidth()) {
-                    node.setX(nx);
-                    node.setY(mheight + ny);
+                if (nx + node.getWidth() > _logic.getCanvasWidth()) {
+                    nx = padding_x;
+                    ny += (mheight + padding_y);
                     lastWidth = 0;
-                    ny += mheight;
-                } else {
-                    node.setX(nx + lastWidth);
-                    node.setY(ny);
                 }
             } else if (_logic.getLayoutOrder() == LayoutOrder.ColumnFirst){
-                if (ny + node.getHeight() + lastHeight > _logic.getCanvasHeight() && mheight <= 0){
+                if (lastHeight <= 0 && ny + node.getHeight() + padding_y > _logic.getCanvasHeight()){
+                    node.setX(-1);
+                    node.setY(-1);
                     continue;
                 }
-                if (ny + node.getHeight() + lastHeight > _logic.getCanvasHeight()) {
-                    node.setX(mwidth + nx);
-                    node.setY(ny);
+                if (ny + node.getHeight() + padding_y > _logic.getCanvasHeight()) {
+                    ny = padding_y;
+                    nx += (mwidth + padding_x);
                     lastHeight = 0;
-                    nx += mwidth;
-                } else {
-                    node.setX(nx);
-                    node.setY(ny + lastHeight);
                 }
             }
-            lastWidth += node.getWidth();
-            lastHeight += node.getHeight();
+            node.setX(nx);
+            node.setY(ny);
+            lastWidth = node.getWidth();
+            lastHeight = node.getHeight();
+            if (_logic.getLayoutOrder() == LayoutOrder.RowFirst){ nx += lastWidth + padding_x; }
+            if (_logic.getLayoutOrder() == LayoutOrder.ColumnFirst){ ny += lastHeight + padding_y; }
             if (lastWidth > mwidth) { mwidth = lastWidth; }
             if (lastHeight > mheight) { mheight = lastHeight; }
         }
@@ -337,7 +338,9 @@ public class EditorJPanel extends JPanel {
         readyImageNode();
         for (int i = 0; i < _imageList.size(); i++){
             IPLNode<Image> node = _imageList.get(i);
-            g2d.drawImage(node.getData(), node.getX(), node.getY(), node.getWidth(), node.getHeight(), this);
+            if (node.getX() >= 0 && node.getY() >= 0) {
+                g2d.drawImage(node.getData(), node.getX(), node.getY(), node.getWidth(), node.getHeight(), this);
+            }
         }
         if (_isToSave == false && _logic.getCanvasCheckerbard()){
             drawCheckerboard(g2d);

@@ -23,7 +23,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jToolBar_spritesheeter" alignment="0" pref="1290" max="32767" attributes="0"/>
+          <Component id="jToolBar_spritesheeter" alignment="0" pref="1292" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel_tools" min="-2" max="-2" attributes="0"/>
@@ -39,7 +39,7 @@
               <Component id="jToolBar_spritesheeter" min="-2" pref="42" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jTabbedPane_main" pref="840" max="32767" attributes="0"/>
+                  <Component id="jTabbedPane_main" pref="916" max="32767" attributes="0"/>
                   <Component id="jPanel_tools" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -177,6 +177,7 @@
                 <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                   <SpinnerModel initial="512" numberType="java.lang.Integer" stepSize="1" type="number"/>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel_canvas_width">
@@ -293,6 +294,7 @@
                     <StringItem index="1" value="Height"/>
                   </StringArray>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBox_layout_sort_order">
@@ -305,6 +307,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox_layout_sort_orderActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBox_layout_layout_order">
               <Properties>
@@ -315,6 +320,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox_layout_layout_orderActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField_layout_row_padding">
               <Properties>
@@ -414,12 +422,12 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="jButton_sprites_background_color">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton5"/>
+                <Property name="text" type="java.lang.String" value="Choose Color"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButton_sprites_selection_color">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton6"/>
+                <Property name="text" type="java.lang.String" value="Choose Color"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel_sprites_background_color">
@@ -447,7 +455,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="177" max="32767" attributes="0"/>
+                      <EmptySpace pref="194" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jButton_export_coordinates_save" alignment="1" max="32767" attributes="1"/>
                           <Component id="jButton_export_texture_save" alignment="1" pref="142" max="32767" attributes="1"/>

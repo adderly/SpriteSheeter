@@ -190,6 +190,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         jSpinner_canvas_width.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(512), null, null, Integer.valueOf(1)));
 
         jSpinner_canvas_height.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(512), null, null, Integer.valueOf(1)));
+        jSpinner_canvas_height.setEnabled(false);
 
         jLabel_canvas_width.setText("Width:");
 
@@ -249,10 +250,21 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         jPanel_layout.setBorder(javax.swing.BorderFactory.createTitledBorder("Layout"));
 
         jComboBox_layout_sort_on.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Width", "Height" }));
+        jComboBox_layout_sort_on.setEnabled(false);
 
         jComboBox_layout_sort_order.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Custom", "Ascending", "Descending" }));
+        jComboBox_layout_sort_order.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_layout_sort_orderActionPerformed(evt);
+            }
+        });
 
         jComboBox_layout_layout_order.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Row First", "Column First" }));
+        jComboBox_layout_layout_order.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_layout_layout_orderActionPerformed(evt);
+            }
+        });
 
         jTextField_layout_row_padding.setText("0px");
 
@@ -331,9 +343,9 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
 
         jPanel_sprites.setBorder(javax.swing.BorderFactory.createTitledBorder("Sprites"));
 
-        jButton_sprites_background_color.setText("jButton5");
+        jButton_sprites_background_color.setText("Choose Color");
 
-        jButton_sprites_selection_color.setText("jButton6");
+        jButton_sprites_selection_color.setText("Choose Color");
 
         jLabel_sprites_background_color.setText("Background Color:");
 
@@ -389,7 +401,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         jPanel_exportLayout.setHorizontalGroup(
             jPanel_exportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_exportLayout.createSequentialGroup()
-                .addContainerGap(177, Short.MAX_VALUE)
+                .addContainerGap(194, Short.MAX_VALUE)
                 .addGroup(jPanel_exportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton_export_coordinates_save, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton_export_texture_save, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
@@ -438,7 +450,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar_spritesheeter, javax.swing.GroupLayout.DEFAULT_SIZE, 1290, Short.MAX_VALUE)
+            .addComponent(jToolBar_spritesheeter, javax.swing.GroupLayout.DEFAULT_SIZE, 1292, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel_tools, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -452,7 +464,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                 .addComponent(jToolBar_spritesheeter, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane_main, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane_main, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE)
                     .addComponent(jPanel_tools, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -514,6 +526,24 @@ private void jButton_export_coordinates_saveActionPerformed(java.awt.event.Actio
         editor.saveScriptSheeter(saveFile.getPath());
     }
 }//GEN-LAST:event_jButton_export_coordinates_saveActionPerformed
+
+    private void jComboBox_layout_sort_orderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_layout_sort_orderActionPerformed
+        if (this.getLayoutSortOrder() == SortOrder.SortOrderCustom) {
+            this.jComboBox_layout_sort_on.setEnabled(false);
+        } else {
+            this.jComboBox_layout_sort_on.setEnabled(true);
+        }
+    }//GEN-LAST:event_jComboBox_layout_sort_orderActionPerformed
+
+    private void jComboBox_layout_layout_orderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_layout_layout_orderActionPerformed
+        if (this.getLayoutOrder() == LayoutOrder.RowFirst){
+            this.jSpinner_canvas_height.setEnabled(false);
+            this.jSpinner_canvas_width.setEnabled(true);
+        } else if (this.getLayoutOrder() == LayoutOrder.ColumnFirst){
+            this.jSpinner_canvas_height.setEnabled(true);
+            this.jSpinner_canvas_width.setEnabled(false);
+        }
+    }//GEN-LAST:event_jComboBox_layout_layout_orderActionPerformed
 
     /**
      * @param args the command line arguments
