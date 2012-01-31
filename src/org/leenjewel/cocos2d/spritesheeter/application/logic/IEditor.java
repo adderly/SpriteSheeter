@@ -9,5 +9,6 @@ package org.leenjewel.cocos2d.spritesheeter.application.logic;
  * @author leenjewel
  */
 public interface IEditor {
-    
+    public void exportToLogic(ILogic logic);
+    public void importFromLogic(ILogic logic);
 }

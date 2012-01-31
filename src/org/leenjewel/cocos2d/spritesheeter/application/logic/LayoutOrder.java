@@ -12,19 +12,19 @@ public enum LayoutOrder {
     RowFirst{
         @Override
         public String toString(){
-            return "Row";
+            return "Row First";
         }
     },
     ColumnFirst{
         @Override
         public String toString(){
-            return "Column";
+            return "Column First";
         }
     };
-    
+
     @Override
     public abstract String toString();
-    
+
     public static LayoutOrder getByString(String s){
         if ("Row".equals(s)){
             return RowFirst;

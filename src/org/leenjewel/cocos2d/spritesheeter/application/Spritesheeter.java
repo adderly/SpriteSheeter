@@ -36,20 +36,20 @@ import org.leenjewel.cocos2d.spritesheeter.application.panel.JTabbedPaneWithClos
 public class Spritesheeter extends javax.swing.JFrame implements ILogic {
 
     private Color _canvasBackgroundColor;
-    
+
     /** Creates new form Spritesheeter */
     public Spritesheeter() {
         this.setLookAndFeel();
         initComponents();
-        
+
         addDropListener();
         initPanel();
     }
-    
+
     private void initPanel(){
         jTabbedPane_main.addTab("new", new EditorJPanel(this));
     }
-    
+
     private void setLookAndFeel(){
         String osName = System.getProperty("os.name").toUpperCase();
         try{
@@ -61,7 +61,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         }catch(Exception e){
         }
     }
-    
+
     private void addDropListener(){
         class ImageDropTargetListener extends DropTargetAdapter{
 
@@ -73,7 +73,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                 Transferable transferable = dtde.getTransferable();
                 DataFlavor[] flavors = transferable.getTransferDataFlavors();
                 //遍历所有内容的数据格式
-                
+
                 EditorJPanel editor = ((EditorJPanel)jTabbedPane_main.getSelectedComponent());
                 FileNameExtensionFilter imageFileFilter = new FileNameExtensionFilter("", "jpg", "jpeg", "png", "gif");
                 FileNameExtensionFilter spritesheetFileFilter = new FileNameExtensionFilter("spritesheeter", "spritesheeter");
@@ -117,15 +117,15 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                             }
                         }
                     }catch(Exception e){
-                        
+
                     }
                 }
                 //强制拖放结束
                 dtde.dropComplete(true);
             }
-            
+
         }
-        
+
         new DropTarget(this, DnDConstants.ACTION_COPY_OR_MOVE, new ImageDropTargetListener());
     }
 
@@ -138,8 +138,6 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar_spritesheeter = new javax.swing.JToolBar();
-        jButton_toolbar_import = new javax.swing.JButton();
         jPanel_tools = new javax.swing.JPanel();
         jPanel_canvas = new javax.swing.JPanel();
         jSpinner_canvas_width = new javax.swing.JSpinner();
@@ -149,6 +147,8 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         jButton_canvas_background = new javax.swing.JButton();
         jLabel_canvas_background = new javax.swing.JLabel();
         jCheckBox_canvas_checkerbard = new javax.swing.JCheckBox();
+        jCheckBox_canvas_lock_width = new javax.swing.JCheckBox();
+        jCheckBox_canvas_lock_height = new javax.swing.JCheckBox();
         jPanel_layout = new javax.swing.JPanel();
         jComboBox_layout_sort_on = new javax.swing.JComboBox();
         jComboBox_layout_sort_order = new javax.swing.JComboBox();
@@ -171,17 +171,16 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         jButton_export_texture_save = new javax.swing.JButton();
         jButton_export_coordinates_save = new javax.swing.JButton();
         jTabbedPane_main = new JTabbedPaneWithCloseIcons();
+        jMenuBar_main = new javax.swing.JMenuBar();
+        jMenu_main_file = new javax.swing.JMenu();
+        jMenuItem_main_file_new = new javax.swing.JMenuItem();
+        jMenuItem_main_file_texture_save = new javax.swing.JMenuItem();
+        jMenuItem_main_file_coor_save = new javax.swing.JMenuItem();
+        jMenuItem_main_file_exit = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Spritesheeter");
-
-        jToolBar_spritesheeter.setRollover(true);
-
-        jButton_toolbar_import.setText("Import");
-        jButton_toolbar_import.setFocusable(false);
-        jButton_toolbar_import.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton_toolbar_import.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar_spritesheeter.add(jButton_toolbar_import);
 
         jPanel_tools.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -190,7 +189,6 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         jSpinner_canvas_width.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(512), null, null, Integer.valueOf(1)));
 
         jSpinner_canvas_height.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(512), null, null, Integer.valueOf(1)));
-        jSpinner_canvas_height.setEnabled(false);
 
         jLabel_canvas_width.setText("Width:");
 
@@ -201,10 +199,25 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
 
         jLabel_canvas_background.setText("Background:");
 
+        jCheckBox_canvas_checkerbard.setSelected(true);
         jCheckBox_canvas_checkerbard.setText("Checkerbard");
         jCheckBox_canvas_checkerbard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox_canvas_checkerbardActionPerformed(evt);
+            }
+        });
+
+        jCheckBox_canvas_lock_width.setText("Lock Width");
+        jCheckBox_canvas_lock_width.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_canvas_lock_widthActionPerformed(evt);
+            }
+        });
+
+        jCheckBox_canvas_lock_height.setText("Lock Height");
+        jCheckBox_canvas_lock_height.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_canvas_lock_heightActionPerformed(evt);
             }
         });
 
@@ -213,7 +226,11 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         jPanel_canvasLayout.setHorizontalGroup(
             jPanel_canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_canvasLayout.createSequentialGroup()
-                .addContainerGap(81, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(jPanel_canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox_canvas_lock_width)
+                    .addComponent(jCheckBox_canvas_lock_height))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(jPanel_canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckBox_canvas_checkerbard)
                     .addGroup(jPanel_canvasLayout.createSequentialGroup()
@@ -233,17 +250,21 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
             .addGroup(jPanel_canvasLayout.createSequentialGroup()
                 .addGroup(jPanel_canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jSpinner_canvas_width, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel_canvas_width))
+                    .addComponent(jLabel_canvas_width)
+                    .addComponent(jCheckBox_canvas_lock_width))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel_canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSpinner_canvas_height, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel_canvas_height))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel_canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_canvas_background)
-                    .addComponent(jLabel_canvas_background))
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox_canvas_checkerbard)
+                .addGroup(jPanel_canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_canvasLayout.createSequentialGroup()
+                        .addGroup(jPanel_canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jSpinner_canvas_height, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel_canvas_height))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel_canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton_canvas_background)
+                            .addComponent(jLabel_canvas_background))
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBox_canvas_checkerbard))
+                    .addComponent(jCheckBox_canvas_lock_height))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -260,11 +281,6 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         });
 
         jComboBox_layout_layout_order.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Row First", "Column First" }));
-        jComboBox_layout_layout_order.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_layout_layout_orderActionPerformed(evt);
-            }
-        });
 
         jTextField_layout_row_padding.setText("0px");
 
@@ -296,12 +312,12 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_layoutLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel_layout_sort_order, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                    .addComponent(jLabel_layout_sort_on, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                    .addComponent(jLabel_layout_layout_order, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                    .addComponent(jLabel_layout_row_padding, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                    .addComponent(jLabel_layout_column_padding, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                    .addComponent(jLabel_layout_layout, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))
+                    .addComponent(jLabel_layout_sort_order, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                    .addComponent(jLabel_layout_sort_on, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                    .addComponent(jLabel_layout_layout_order, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                    .addComponent(jLabel_layout_row_padding, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                    .addComponent(jLabel_layout_column_padding, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                    .addComponent(jLabel_layout_layout, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton_layout_apply, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -358,8 +374,8 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_spritesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel_spritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel_sprites_selection_color, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(jLabel_sprites_background_color, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                    .addComponent(jLabel_sprites_selection_color, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                    .addComponent(jLabel_sprites_background_color, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel_spritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton_sprites_selection_color, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -401,7 +417,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         jPanel_exportLayout.setHorizontalGroup(
             jPanel_exportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_exportLayout.createSequentialGroup()
-                .addContainerGap(194, Short.MAX_VALUE)
+                .addContainerGap(243, Short.MAX_VALUE)
                 .addGroup(jPanel_exportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton_export_coordinates_save, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton_export_texture_save, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
@@ -446,27 +462,75 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                 .addContainerGap())
         );
 
+        jTabbedPane_main.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane_mainStateChanged(evt);
+            }
+        });
+
+        jMenu_main_file.setText("File");
+
+        jMenuItem_main_file_new.setText("New");
+        jMenuItem_main_file_new.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_main_file_newActionPerformed(evt);
+            }
+        });
+        jMenu_main_file.add(jMenuItem_main_file_new);
+
+        jMenuItem_main_file_texture_save.setText("Texture Save");
+        jMenuItem_main_file_texture_save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_main_file_texture_saveActionPerformed(evt);
+            }
+        });
+        jMenu_main_file.add(jMenuItem_main_file_texture_save);
+
+        jMenuItem_main_file_coor_save.setText("Coordinates Save");
+        jMenuItem_main_file_coor_save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_main_file_coor_saveActionPerformed(evt);
+            }
+        });
+        jMenu_main_file.add(jMenuItem_main_file_coor_save);
+
+        jMenuItem_main_file_exit.setText("Exit");
+        jMenuItem_main_file_exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_main_file_exitActionPerformed(evt);
+            }
+        });
+        jMenu_main_file.add(jMenuItem_main_file_exit);
+
+        jMenuBar_main.add(jMenu_main_file);
+
+        jMenu2.setText("Edit");
+        jMenuBar_main.add(jMenu2);
+
+        setJMenuBar(jMenuBar_main);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar_spritesheeter, javax.swing.GroupLayout.DEFAULT_SIZE, 1292, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel_tools, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedPane_main, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
+                .addComponent(jTabbedPane_main, javax.swing.GroupLayout.DEFAULT_SIZE, 821, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar_spritesheeter, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane_main, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE)
-                    .addComponent(jPanel_tools, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTabbedPane_main, javax.swing.GroupLayout.DEFAULT_SIZE, 927, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel_tools, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(23, 23, 23))))
         );
 
         pack();
@@ -509,7 +573,7 @@ private void jButton_export_texture_saveActionPerformed(java.awt.event.ActionEve
             editor.savePList(saveFile.getPath());
         }*/
     }catch(Exception e){
-        
+
     }
 }//GEN-LAST:event_jButton_export_texture_saveActionPerformed
 
@@ -535,15 +599,38 @@ private void jButton_export_coordinates_saveActionPerformed(java.awt.event.Actio
         }
     }//GEN-LAST:event_jComboBox_layout_sort_orderActionPerformed
 
-    private void jComboBox_layout_layout_orderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_layout_layout_orderActionPerformed
-        if (this.getLayoutOrder() == LayoutOrder.RowFirst){
-            this.jSpinner_canvas_height.setEnabled(false);
-            this.jSpinner_canvas_width.setEnabled(true);
-        } else if (this.getLayoutOrder() == LayoutOrder.ColumnFirst){
-            this.jSpinner_canvas_height.setEnabled(true);
-            this.jSpinner_canvas_width.setEnabled(false);
-        }
-    }//GEN-LAST:event_jComboBox_layout_layout_orderActionPerformed
+    private void jCheckBox_canvas_lock_widthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_canvas_lock_widthActionPerformed
+        this.setLockWidth(jCheckBox_canvas_lock_width.isSelected());
+        EditorJPanel editor = ((EditorJPanel)this.jTabbedPane_main.getSelectedComponent());
+        editor.unSelected();
+    }//GEN-LAST:event_jCheckBox_canvas_lock_widthActionPerformed
+
+    private void jCheckBox_canvas_lock_heightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_canvas_lock_heightActionPerformed
+        this.setLockHeight(jCheckBox_canvas_lock_height.isSelected());
+        EditorJPanel editor = ((EditorJPanel)this.jTabbedPane_main.getSelectedComponent());
+        editor.unSelected();
+    }//GEN-LAST:event_jCheckBox_canvas_lock_heightActionPerformed
+
+    private void jMenuItem_main_file_texture_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_main_file_texture_saveActionPerformed
+        this.jButton_export_texture_saveActionPerformed(evt);
+    }//GEN-LAST:event_jMenuItem_main_file_texture_saveActionPerformed
+
+    private void jMenuItem_main_file_coor_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_main_file_coor_saveActionPerformed
+        this.jButton_export_coordinates_saveActionPerformed(evt);
+    }//GEN-LAST:event_jMenuItem_main_file_coor_saveActionPerformed
+
+    private void jMenuItem_main_file_exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_main_file_exitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem_main_file_exitActionPerformed
+
+    private void jMenuItem_main_file_newActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_main_file_newActionPerformed
+        jTabbedPane_main.addTab("new", new EditorJPanel(this));
+    }//GEN-LAST:event_jMenuItem_main_file_newActionPerformed
+
+    private void jTabbedPane_mainStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane_mainStateChanged
+        EditorJPanel editor = ((EditorJPanel)this.jTabbedPane_main.getSelectedComponent());
+        editor.selected();
+    }//GEN-LAST:event_jTabbedPane_mainStateChanged
 
     /**
      * @param args the command line arguments
@@ -552,7 +639,7 @@ private void jButton_export_coordinates_saveActionPerformed(java.awt.event.Actio
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -587,8 +674,9 @@ private void jButton_export_coordinates_saveActionPerformed(java.awt.event.Actio
     private javax.swing.JButton jButton_layout_apply;
     private javax.swing.JButton jButton_sprites_background_color;
     private javax.swing.JButton jButton_sprites_selection_color;
-    private javax.swing.JButton jButton_toolbar_import;
     private javax.swing.JCheckBox jCheckBox_canvas_checkerbard;
+    private javax.swing.JCheckBox jCheckBox_canvas_lock_height;
+    private javax.swing.JCheckBox jCheckBox_canvas_lock_width;
     private javax.swing.JComboBox jComboBox_layout_layout_order;
     private javax.swing.JComboBox jComboBox_layout_sort_on;
     private javax.swing.JComboBox jComboBox_layout_sort_order;
@@ -603,6 +691,13 @@ private void jButton_export_coordinates_saveActionPerformed(java.awt.event.Actio
     private javax.swing.JLabel jLabel_layout_sort_order;
     private javax.swing.JLabel jLabel_sprites_background_color;
     private javax.swing.JLabel jLabel_sprites_selection_color;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar_main;
+    private javax.swing.JMenuItem jMenuItem_main_file_coor_save;
+    private javax.swing.JMenuItem jMenuItem_main_file_exit;
+    private javax.swing.JMenuItem jMenuItem_main_file_new;
+    private javax.swing.JMenuItem jMenuItem_main_file_texture_save;
+    private javax.swing.JMenu jMenu_main_file;
     private javax.swing.JPanel jPanel_canvas;
     private javax.swing.JPanel jPanel_export;
     private javax.swing.JPanel jPanel_layout;
@@ -613,7 +708,6 @@ private void jButton_export_coordinates_saveActionPerformed(java.awt.event.Actio
     private javax.swing.JTabbedPane jTabbedPane_main;
     private javax.swing.JTextField jTextField_layout_column_padding;
     private javax.swing.JTextField jTextField_layout_row_padding;
-    private javax.swing.JToolBar jToolBar_spritesheeter;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -745,5 +839,35 @@ private void jButton_export_coordinates_saveActionPerformed(java.awt.event.Actio
     @Override
     public void setLayoutOrder(LayoutOrder layoutOrder) {
         this.jComboBox_layout_layout_order.setSelectedItem(layoutOrder.toString());
+    }
+
+    @Override
+    public boolean isLockWidth() {
+        return this.jCheckBox_canvas_lock_width.isSelected();
+    }
+
+    @Override
+    public boolean isLockHeight() {
+        return this.jCheckBox_canvas_lock_height.isSelected();
+    }
+
+    @Override
+    public void setLockWidth(boolean lock) {
+        this.jCheckBox_canvas_lock_width.setSelected(lock);
+        this.jSpinner_canvas_width.setEnabled(!(lock));
+        if (this.jCheckBox_canvas_lock_width.isSelected()){
+            this.setLayoutOrder(LayoutOrder.ColumnFirst);
+        }
+        this.jComboBox_layout_layout_order.setEnabled(!(this.jCheckBox_canvas_lock_width.isSelected()));
+    }
+
+    @Override
+    public void setLockHeight(boolean lock) {
+        this.jCheckBox_canvas_lock_height.setSelected(lock);
+        this.jSpinner_canvas_height.setEnabled(!(this.jCheckBox_canvas_lock_height.isSelected()));
+        if (this.jCheckBox_canvas_lock_height.isSelected()){
+            this.setLayoutOrder(LayoutOrder.RowFirst);
+        }
+        this.jComboBox_layout_layout_order.setEnabled(!(this.jCheckBox_canvas_lock_height.isSelected()));
     }
 }

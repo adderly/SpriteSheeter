@@ -30,6 +30,8 @@ import java.util.zip.ZipOutputStream;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import org.leenjewel.cocos2d.spritesheeter.application.logic.EditorData;
+import org.leenjewel.cocos2d.spritesheeter.application.logic.IEditor;
 import org.leenjewel.cocos2d.spritesheeter.application.logic.ILogic;
 import org.leenjewel.cocos2d.spritesheeter.application.logic.LayoutOrder;
 import org.leenjewel.cocos2d.spritesheeter.application.logic.SortOn;
@@ -48,34 +50,45 @@ import org.leenjewel.cocos2d.spritesheeter.xml.XMLFile;
 public class EditorJPanel extends JPanel {
     private boolean _isToSave = false;
     private ILogic _logic;
+    private IEditor _editor;
     private BufferedImage _canvasBackground;
     private PLDictionary _plDict;
     private ArrayList<IPLNode> _imageList = new ArrayList<IPLNode>();
     private HashMap<String, IPLNode> _images = new HashMap<String, IPLNode>();
     private String _plistHead = "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
             + "<plist version=\"1.0\"></plist>";
-    
+
     public EditorJPanel(ILogic logic){
         _logic = logic;
+        _editor = new EditorData();
+        _editor.exportToLogic(_logic);
         setLookAndFeel();
         //init();
     }
-    
+
+    public void selected(){
+        _editor.exportToLogic(_logic);
+    }
+
+    public void unSelected(){
+        _editor.importFromLogic(_logic);
+    }
+
     public void addImage(File imageFile) throws IOException{
         addImage(new PLImageNode(imageFile));
     }
-    
+
     public void addImage(BufferedImage imageBuffer, String imageName){
         addImage(new PLImageNode(imageBuffer, imageName));
     }
-    
+
     public void addImage(PLImageNode imageNode){
         if (null == _images.get(imageNode.getName())){
             _images.put(imageNode.getName(), imageNode);
             _imageList.add(imageNode);
         }
     }
-    
+
     public void saveCss(String cssPath) throws IOException {
         String result = "";
         for (int i = 0; i < _imageList.size(); i++){
@@ -90,20 +103,20 @@ public class EditorJPanel extends JPanel {
         writer.write(result);
         writer.close();
     }
-    
+
     public void saveImage(File imageFile) throws IOException{
         _isToSave = true;
         ImageIO.write(createCanvas(), "png", imageFile);
         _isToSave = false;
     }
-    
+
     public void savePList(String filePath){
         buildPList();
         XMLFile plist = new XMLFile(_plistHead);
         plist.addNode(_plDict.toString());
         plist.save(filePath);
     }
-    
+
     public void openScriptSheeter(File zip){
         try{
             ZipFile zipFile = new ZipFile(zip);
@@ -127,18 +140,18 @@ public class EditorJPanel extends JPanel {
             }
             zipFile.close();
         } catch (Exception e) {
-        
+
         }
         this.repaint();
     }
-    
+
     public void decodePListXML(XMLFile plistXML){
         XMLFile rootDict = plistXML.get("dict");
         if (null != rootDict){
             _plDict = (PLDictionary) PListDecoder.decode(rootDict);
         }
     }
-    
+
     public void saveScriptSheeter(String filePath){
         try{
             BufferedInputStream origin;
@@ -168,22 +181,22 @@ public class EditorJPanel extends JPanel {
             out.write(saveOptionToXML().toCode().getBytes());
             out.close();
         } catch (Exception e){
-            
+
         }
     }
-    
+
     private void openOptionFromXML(XMLFile xml){
         XMLFile canvas = xml.get("Canvas");
         XMLFile layout = xml.get("Layout");
         XMLFile sprites = xml.get("Sprites");
-        
+
         if (null != canvas){
             _logic.setCanvasWidth(canvas.get("Width").getInteger());
             _logic.setCanvasHeight(canvas.get("Height").getInteger());
             _logic.setCanvasCheckerbard(canvas.get("Checkerboard").getBoolean());
             //_logic.setCanvasBackground();
         }
-        
+
         if (null != layout){
             _logic.setLayoutSortOn(SortOn.getByString(layout.get("SortOn").getText()));
             _logic.setLayoutSortOrder(SortOrder.getByString(layout.get("SortOrder").getText()));
@@ -192,29 +205,29 @@ public class EditorJPanel extends JPanel {
             _logic.setLayoutColumnPadding(layout.get("ColumnPadding").getInteger());
         }
     }
-    
+
     private XMLFile saveOptionToXML(){
         XMLFile result = new XMLFile("<SpriteSheeter></SpriteSheeter>");
         XMLFile canvas = result.addNode("<Canvas></Canvas>");
         XMLFile layout = result.addNode("<Layout></Layout>");
         XMLFile sprites = result.addNode("<Sprites></Sprites>");
-        
+
         canvas.addNode("<Width>"+String.valueOf(_logic.getCanvasWidth()) +"</Width>");
         canvas.addNode("<Height>"+String.valueOf(_logic.getCanvasHeight()) +"</Height>");
         //canvas.addNode("<Background>"+String.valueOf(_logic.getCanvasBackground()) +"</Background>");
         canvas.addNode("<Checkerboard>"+String.valueOf((_logic.getCanvasCheckerbard() ? "true" : "false")) +"</Checkerboard>");
-        
+
         layout.addNode("<SortOn>"+String.valueOf(_logic.getLayoutSortOn()) +"</SortOn>");
         layout.addNode("<SortOrder>"+String.valueOf(_logic.getLayoutSortOrder()) +"</SortOrder>");
         layout.addNode("<LayoutOrder>"+String.valueOf(_logic.getLayoutOrder()) +"</LayoutOrder>");
         layout.addNode("<RowPadding>"+String.valueOf(_logic.getLayoutRowPadding()) +"</RowPadding>");
         layout.addNode("<ColumnPadding>"+String.valueOf(_logic.getLayoutColumnPadding()) +"</ColumnPadding>");
-        
+
         sprites.addNode("<SelectorColor></SelectorColor>");
         sprites.addNode("<BackgroundColor></BackgroundColor>");
         return result;
     }
-    
+
     private void setLookAndFeel(){
         String osName = System.getProperty("os.name").toUpperCase();
         try{
@@ -226,7 +239,7 @@ public class EditorJPanel extends JPanel {
         }catch(Exception e){
         }
     }
-    
+
     private void buildPList(){
         _plDict = new PLDictionary();
         initFrames();
@@ -237,11 +250,11 @@ public class EditorJPanel extends JPanel {
             frames.put(node.getName(), node.buildPLObject());
         }
     }
-    
+
     private void initFrames(){
         _plDict.put("frames", new PLDictionary());
     }
-    
+
     private PLDictionary getFrames(){
         PLDictionary frames = (PLDictionary)_plDict.get("frames");
         if (frames == null){
@@ -250,7 +263,7 @@ public class EditorJPanel extends JPanel {
         }
         return (PLDictionary)_plDict.get("frames");
     }
-    
+
     private void initMetadata(){
         PLDictionary metadataDict = ((PLDictionary)_plDict.get("metadata"));
         if (null == metadataDict){
@@ -265,7 +278,7 @@ public class EditorJPanel extends JPanel {
     private void sortImageNode(){
         Collections.sort(_imageList, new PLNodeSort(_logic));
     }
-    
+
     private void readyImageNode(){
         if (_logic.getLayoutSortOrder() != SortOrder.SortOrderCustom){
             sortImageNode();
@@ -279,25 +292,41 @@ public class EditorJPanel extends JPanel {
             IPLNode node = _imageList.get(i);
             if (_logic.getLayoutOrder() == LayoutOrder.RowFirst){
                 if (lastWidth <= 0 && nx + node.getWidth() > _logic.getCanvasWidth()){
-                    node.setX(-1);
-                    node.setY(-1);
-                    continue;
+                    if (_logic.isLockHeight()){
+                        _logic.setCanvasWidth(nx + node.getWidth());
+                    }else{
+                        node.setX(-1);
+                        node.setY(-1);
+                        continue;
+                    }
                 }
                 if (nx + node.getWidth() > _logic.getCanvasWidth()) {
-                    nx = padding_x;
-                    ny += (mheight + padding_y);
-                    lastWidth = 0;
+                    if (_logic.isLockHeight()){
+                        _logic.setCanvasWidth(nx + node.getWidth());
+                    } else {
+                        nx = padding_x;
+                        ny += (mheight + padding_y);
+                        lastWidth = 0;
+                    }
                 }
             } else if (_logic.getLayoutOrder() == LayoutOrder.ColumnFirst){
-                if (lastHeight <= 0 && ny + node.getHeight() + padding_y > _logic.getCanvasHeight()){
-                    node.setX(-1);
-                    node.setY(-1);
-                    continue;
+                if (lastHeight <= 0 && ny + node.getHeight() > _logic.getCanvasHeight()){
+                    if (_logic.isLockWidth()){
+                        _logic.setCanvasHeight(ny + node.getHeight());
+                    }else{
+                        node.setX(-1);
+                        node.setY(-1);
+                        continue;
+                    }
                 }
                 if (ny + node.getHeight() + padding_y > _logic.getCanvasHeight()) {
-                    ny = padding_y;
-                    nx += (mwidth + padding_x);
-                    lastHeight = 0;
+                    if (_logic.isLockWidth()){
+                        _logic.setCanvasHeight(ny + node.getHeight());
+                    } else {
+                        ny = padding_y;
+                        nx += (mwidth + padding_x);
+                        lastHeight = 0;
+                    }
                 }
             }
             node.setX(nx);
@@ -310,13 +339,15 @@ public class EditorJPanel extends JPanel {
             if (lastHeight > mheight) { mheight = lastHeight; }
         }
     }
-    
+
     private void onDraw(Graphics g){
         g.drawImage(createCanvas(), 0, 0, this);
         this.revalidate();
     }
-    
+
     private BufferedImage createCanvas(){
+        _editor.importFromLogic(_logic);
+        readyImageNode();
         Dimension s = this.getSize();
         int w = (s.width < _logic.getCanvasWidth() ? _logic.getCanvasWidth() : s.width);
         int h = (s.height < _logic.getCanvasHeight() ? _logic.getCanvasHeight() : s.height);
@@ -325,17 +356,16 @@ public class EditorJPanel extends JPanel {
                 _logic.getCanvasWidth(),
                 _logic.getCanvasHeight(),
                 BufferedImage.TYPE_INT_RGB);
-        
+
         Graphics2D g2d = _canvasBackground.createGraphics();
         _canvasBackground = g2d.getDeviceConfiguration().createCompatibleImage(
                 _logic.getCanvasWidth(),
                 _logic.getCanvasHeight(),
                 Transparency.TRANSLUCENT);
-        
+
         g2d.dispose();
         g2d = _canvasBackground.createGraphics();
-        
-        readyImageNode();
+
         for (int i = 0; i < _imageList.size(); i++){
             IPLNode<Image> node = _imageList.get(i);
             if (node.getX() >= 0 && node.getY() >= 0) {
@@ -348,7 +378,7 @@ public class EditorJPanel extends JPanel {
         g2d.dispose();
         return _canvasBackground;
     }
-    
+
     private void drawCheckerboard(Graphics2D g){
         Color backupColor = g.getColor();
         Stroke backupStroke = g.getStroke();
@@ -362,11 +392,11 @@ public class EditorJPanel extends JPanel {
         g.setColor(backupColor);
         g.setStroke(backupStroke);
     }
-    
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         onDraw(g);
     }
-    
+
 }
