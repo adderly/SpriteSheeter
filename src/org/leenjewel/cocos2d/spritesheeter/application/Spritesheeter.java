@@ -85,7 +85,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                             //取出列表中的文件列表
                             List fileList = (List) transferable.getTransferData(d);
                             for (Object f : fileList){
-                                String fileName = ((File)f).getName();
+                                System.out.println(((File)f).getName());
                                 if (imageFileFilter.accept(((File)f))){
                                     editor.addImage(((File)f));
                                 }else if (spritesheetFileFilter.accept((File)f)){
@@ -99,25 +99,27 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                         }else if (d.equals(DataFlavor.stringFlavor)){
                             String filePath = ((String)transferable.getTransferData(d));
                             if (filePath.startsWith("file://")){
-                                filePath = filePath.replace("file://", "");
-                                filePath = filePath.replace("\n", "");
-                                filePath = filePath.replace("\r", "");
-                                String[] fileList = filePath.split("/");
-                                String fileName = fileList[fileList.length - 1];
-                                File openFile = new File(filePath);
-                                if (imageFileFilter.accept(openFile)){
-                                    editor.addImage(openFile);
-                                }else if (spritesheetFileFilter.accept(openFile)){
-                                    editor.openScriptSheeter(openFile);
+                                String[] fileList = filePath.split("file://");
+                                for (int f = 0; f < fileList.length; f++){
+                                    //filePath = filePath.replace("file://", "");
+                                    filePath = fileList[f];
+                                    filePath = filePath.replace("\n", "");
+                                    filePath = filePath.replace("\r", "");
+                                    File openFile = new File(filePath);
+                                    if (imageFileFilter.accept(openFile)){
+                                        editor.addImage(openFile);
+                                    }else if (spritesheetFileFilter.accept(openFile)){
+                                        editor.openScriptSheeter(openFile);
+                                    }
+                                    else{
+                                        //tell user error;
+                                    }
+                                    editor.repaint();
                                 }
-                                else{
-                                    //tell user error;
-                                }
-                                editor.repaint();
                             }
                         }
                     }catch(Exception e){
-
+                        e.printStackTrace();
                     }
                 }
                 //强制拖放结束
@@ -177,7 +179,8 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         jMenuItem_main_file_texture_save = new javax.swing.JMenuItem();
         jMenuItem_main_file_coor_save = new javax.swing.JMenuItem();
         jMenuItem_main_file_exit = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jMenu_main_help = new javax.swing.JMenu();
+        jMenuItem_main_help_about = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Spritesheeter");
@@ -504,8 +507,12 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
 
         jMenuBar_main.add(jMenu_main_file);
 
-        jMenu2.setText("Edit");
-        jMenuBar_main.add(jMenu2);
+        jMenu_main_help.setText("Help");
+
+        jMenuItem_main_help_about.setText("About");
+        jMenu_main_help.add(jMenuItem_main_help_about);
+
+        jMenuBar_main.add(jMenu_main_help);
 
         setJMenuBar(jMenuBar_main);
 
@@ -691,13 +698,14 @@ private void jButton_export_coordinates_saveActionPerformed(java.awt.event.Actio
     private javax.swing.JLabel jLabel_layout_sort_order;
     private javax.swing.JLabel jLabel_sprites_background_color;
     private javax.swing.JLabel jLabel_sprites_selection_color;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar_main;
     private javax.swing.JMenuItem jMenuItem_main_file_coor_save;
     private javax.swing.JMenuItem jMenuItem_main_file_exit;
     private javax.swing.JMenuItem jMenuItem_main_file_new;
     private javax.swing.JMenuItem jMenuItem_main_file_texture_save;
+    private javax.swing.JMenuItem jMenuItem_main_help_about;
     private javax.swing.JMenu jMenu_main_file;
+    private javax.swing.JMenu jMenu_main_help;
     private javax.swing.JPanel jPanel_canvas;
     private javax.swing.JPanel jPanel_export;
     private javax.swing.JPanel jPanel_layout;
