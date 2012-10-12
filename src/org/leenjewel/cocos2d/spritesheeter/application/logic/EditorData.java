@@ -30,6 +30,8 @@ public class EditorData implements IEditor {
 
     private int _columnPadding = 0;
 
+    private float _scale = (float)1.0;
+
     @Override
     public void importFromLogic(ILogic logic){
         _canvasWidth = logic.getCanvasWidth();
@@ -46,6 +48,8 @@ public class EditorData implements IEditor {
 
         _rowPadding = logic.getLayoutRowPadding();
         _columnPadding = logic.getLayoutColumnPadding();
+
+        _scale = logic.getSpriteScale();
     }
 
     @Override
@@ -64,6 +68,8 @@ public class EditorData implements IEditor {
 
         logic.setLayoutRowPadding(_rowPadding);
         logic.setLayoutColumnPadding(_columnPadding);
+
+        logic.setSpriteScale(_scale);
     }
 
 }

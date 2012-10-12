@@ -60,4 +60,8 @@ public interface ILogic {
     public void setLockWidth(boolean lock);
 
     public void setLockHeight(boolean lock);
+
+    public float getSpriteScale();
+
+    public void setSpriteScale(float scale);
 }

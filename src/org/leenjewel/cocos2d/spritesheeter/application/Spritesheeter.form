@@ -121,13 +121,16 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jPanel_layout" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jPanel_sprites" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jPanel_canvas" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jPanel_export" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                          <Component id="jPanel_layout" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPanel_sprites" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPanel_canvas" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPanel_export" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="jButton_layout_apply" alignment="1" max="32767" attributes="1"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -139,12 +142,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel_canvas" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jPanel_layout" max="32767" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="jPanel_layout" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jPanel_sprites" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jPanel_export" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" max="-2" attributes="1"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="jButton_layout_apply" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -168,7 +173,7 @@
                           <Component id="jCheckBox_canvas_lock_width" min="-2" max="-2" attributes="0"/>
                           <Component id="jCheckBox_canvas_lock_height" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="13" max="32767" attributes="0"/>
+                      <EmptySpace pref="30" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jCheckBox_canvas_checkerbard" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
@@ -181,7 +186,7 @@
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jButton_canvas_background" alignment="1" max="32767" attributes="1"/>
                                   <Component id="jSpinner_canvas_height" alignment="1" max="32767" attributes="1"/>
-                                  <Component id="jSpinner_canvas_width" alignment="1" pref="122" max="32767" attributes="1"/>
+                                  <Component id="jSpinner_canvas_width" alignment="1" max="32767" attributes="1"/>
                               </Group>
                           </Group>
                       </Group>
@@ -303,12 +308,10 @@
                           <Component id="jLabel_layout_sort_on" alignment="1" pref="195" max="32767" attributes="0"/>
                           <Component id="jLabel_layout_layout_order" alignment="1" pref="195" max="32767" attributes="0"/>
                           <Component id="jLabel_layout_row_padding" alignment="1" pref="195" max="32767" attributes="0"/>
-                          <Component id="jLabel_layout_column_padding" alignment="1" pref="195" max="32767" attributes="0"/>
-                          <Component id="jLabel_layout_layout" alignment="1" pref="195" max="32767" attributes="0"/>
+                          <Component id="jLabel_layout_column_padding" alignment="1" pref="217" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jButton_layout_apply" alignment="1" max="32767" attributes="1"/>
                           <Component id="jTextField_layout_column_padding" alignment="1" max="32767" attributes="1"/>
                           <Component id="jTextField_layout_row_padding" alignment="1" max="32767" attributes="1"/>
                           <Component id="jComboBox_layout_layout_order" alignment="1" max="32767" attributes="1"/>
@@ -346,12 +349,7 @@
                           <Component id="jTextField_layout_column_padding" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel_layout_column_padding" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton_layout_apply" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel_layout_layout" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="99" max="32767" attributes="0"/>
+                      <EmptySpace pref="53" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -402,14 +400,6 @@
                 <Property name="text" type="java.lang.String" value="0px"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton_layout_apply">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Apply"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_layout_applyActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel_layout_sort_on">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sort On:"/>
@@ -435,11 +425,6 @@
                 <Property name="text" type="java.lang.String" value="Column Padding:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel_layout_layout">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Layout"/>
-              </Properties>
-            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel_sprites">
@@ -454,16 +439,21 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jLabel_sprites_selection_color" pref="199" max="32767" attributes="1"/>
-                          <Component id="jLabel_sprites_background_color" alignment="1" pref="199" max="32767" attributes="1"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel_sprites_selection_color" alignment="1" pref="199" max="32767" attributes="1"/>
+                          <Component id="jLabel_sprites_background_color" alignment="1" pref="221" max="32767" attributes="1"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel_sprites_scale" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jButton_sprites_selection_color" alignment="1" max="32767" attributes="1"/>
                           <Component id="jButton_sprites_background_color" alignment="1" pref="162" max="32767" attributes="1"/>
+                          <Component id="jTextField_sprites_scale" alignment="1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -482,7 +472,12 @@
                           <Component id="jButton_sprites_selection_color" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel_sprites_selection_color" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="50" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel_sprites_scale" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField_sprites_scale" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -508,6 +503,16 @@
                 <Property name="text" type="java.lang.String" value="Selection Color:"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JLabel" name="jLabel_sprites_scale">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Sprite Scale:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextField_sprites_scale">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="1.00"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel_export">
@@ -526,7 +531,7 @@
                       <EmptySpace pref="243" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jButton_export_coordinates_save" alignment="1" max="32767" attributes="1"/>
-                          <Component id="jButton_export_texture_save" alignment="1" pref="142" max="32767" attributes="1"/>
+                          <Component id="jButton_export_texture_save" alignment="1" max="32767" attributes="1"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -562,6 +567,14 @@
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JButton" name="jButton_layout_apply">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Refresh"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_layout_applyActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JTabbedPane" name="jTabbedPane_main">

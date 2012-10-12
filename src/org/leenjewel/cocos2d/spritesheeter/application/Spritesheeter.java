@@ -51,14 +51,9 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
     }
 
     private void setLookAndFeel(){
-        String osName = System.getProperty("os.name").toUpperCase();
-        try{
-            if (osName.equals("LINUX")){
-                UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-            }else{
-                UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-            }
-        }catch(Exception e){
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
         }
     }
 
@@ -157,21 +152,22 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         jComboBox_layout_layout_order = new javax.swing.JComboBox();
         jTextField_layout_row_padding = new javax.swing.JTextField();
         jTextField_layout_column_padding = new javax.swing.JTextField();
-        jButton_layout_apply = new javax.swing.JButton();
         jLabel_layout_sort_on = new javax.swing.JLabel();
         jLabel_layout_sort_order = new javax.swing.JLabel();
         jLabel_layout_layout_order = new javax.swing.JLabel();
         jLabel_layout_row_padding = new javax.swing.JLabel();
         jLabel_layout_column_padding = new javax.swing.JLabel();
-        jLabel_layout_layout = new javax.swing.JLabel();
         jPanel_sprites = new javax.swing.JPanel();
         jButton_sprites_background_color = new javax.swing.JButton();
         jButton_sprites_selection_color = new javax.swing.JButton();
         jLabel_sprites_background_color = new javax.swing.JLabel();
         jLabel_sprites_selection_color = new javax.swing.JLabel();
+        jLabel_sprites_scale = new javax.swing.JLabel();
+        jTextField_sprites_scale = new javax.swing.JTextField();
         jPanel_export = new javax.swing.JPanel();
         jButton_export_texture_save = new javax.swing.JButton();
         jButton_export_coordinates_save = new javax.swing.JButton();
+        jButton_layout_apply = new javax.swing.JButton();
         jTabbedPane_main = new JTabbedPaneWithCloseIcons();
         jMenuBar_main = new javax.swing.JMenuBar();
         jMenu_main_file = new javax.swing.JMenu();
@@ -233,19 +229,19 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                 .addGroup(jPanel_canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckBox_canvas_lock_width)
                     .addComponent(jCheckBox_canvas_lock_height))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jPanel_canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckBox_canvas_checkerbard)
                     .addGroup(jPanel_canvasLayout.createSequentialGroup()
                         .addGroup(jPanel_canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel_canvas_height, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel_canvas_width, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                            .addComponent(jLabel_canvas_width, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel_canvas_background, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel_canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton_canvas_background, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSpinner_canvas_height, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jSpinner_canvas_width, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))))
+                            .addComponent(jSpinner_canvas_width, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         jPanel_canvasLayout.setVerticalGroup(
@@ -289,13 +285,6 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
 
         jTextField_layout_column_padding.setText("0px");
 
-        jButton_layout_apply.setText("Apply");
-        jButton_layout_apply.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_layout_applyActionPerformed(evt);
-            }
-        });
-
         jLabel_layout_sort_on.setText("Sort On:");
 
         jLabel_layout_sort_order.setText("Sort Order:");
@@ -305,8 +294,6 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
         jLabel_layout_row_padding.setText("Row Padding:");
 
         jLabel_layout_column_padding.setText("Column Padding:");
-
-        jLabel_layout_layout.setText("Layout");
 
         javax.swing.GroupLayout jPanel_layoutLayout = new javax.swing.GroupLayout(jPanel_layout);
         jPanel_layout.setLayout(jPanel_layoutLayout);
@@ -319,11 +306,9 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                     .addComponent(jLabel_layout_sort_on, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                     .addComponent(jLabel_layout_layout_order, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                     .addComponent(jLabel_layout_row_padding, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                    .addComponent(jLabel_layout_column_padding, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                    .addComponent(jLabel_layout_layout, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
+                    .addComponent(jLabel_layout_column_padding, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton_layout_apply, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextField_layout_column_padding, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTextField_layout_row_padding, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jComboBox_layout_layout_order, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -353,11 +338,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                 .addGroup(jPanel_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField_layout_column_padding, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel_layout_column_padding))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_layout_apply)
-                    .addComponent(jLabel_layout_layout))
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         jPanel_sprites.setBorder(javax.swing.BorderFactory.createTitledBorder("Sprites"));
@@ -370,19 +351,27 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
 
         jLabel_sprites_selection_color.setText("Selection Color:");
 
+        jLabel_sprites_scale.setText("Sprite Scale:");
+
+        jTextField_sprites_scale.setText("1.00");
+
         javax.swing.GroupLayout jPanel_spritesLayout = new javax.swing.GroupLayout(jPanel_sprites);
         jPanel_sprites.setLayout(jPanel_spritesLayout);
         jPanel_spritesLayout.setHorizontalGroup(
             jPanel_spritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_spritesLayout.createSequentialGroup()
+            .addGroup(jPanel_spritesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel_spritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel_sprites_selection_color, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
-                    .addComponent(jLabel_sprites_background_color, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE))
+                .addGroup(jPanel_spritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel_sprites_selection_color, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                    .addComponent(jLabel_sprites_background_color, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+                    .addGroup(jPanel_spritesLayout.createSequentialGroup()
+                        .addComponent(jLabel_sprites_scale)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel_spritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel_spritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton_sprites_selection_color, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton_sprites_background_color, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE))
+                    .addComponent(jButton_sprites_background_color, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                    .addComponent(jTextField_sprites_scale, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         jPanel_spritesLayout.setVerticalGroup(
@@ -396,7 +385,11 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                 .addGroup(jPanel_spritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_sprites_selection_color)
                     .addComponent(jLabel_sprites_selection_color))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel_spritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_sprites_scale)
+                    .addComponent(jTextField_sprites_scale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel_export.setBorder(javax.swing.BorderFactory.createTitledBorder("Export"));
@@ -423,7 +416,7 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                 .addContainerGap(243, Short.MAX_VALUE)
                 .addGroup(jPanel_exportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton_export_coordinates_save, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton_export_texture_save, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+                    .addComponent(jButton_export_texture_save, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel_exportLayout.setVerticalGroup(
@@ -435,17 +428,26 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jButton_layout_apply.setText("Refresh");
+        jButton_layout_apply.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_layout_applyActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel_toolsLayout = new javax.swing.GroupLayout(jPanel_tools);
         jPanel_tools.setLayout(jPanel_toolsLayout);
         jPanel_toolsLayout.setHorizontalGroup(
             jPanel_toolsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_toolsLayout.createSequentialGroup()
+            .addGroup(jPanel_toolsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel_toolsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel_layout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel_sprites, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel_canvas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel_export, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_toolsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel_layout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel_sprites, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel_canvas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel_export, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton_layout_apply, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -457,12 +459,14 @@ public class Spritesheeter extends javax.swing.JFrame implements ILogic {
                 .addContainerGap()
                 .addComponent(jPanel_canvas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel_layout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel_layout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel_sprites, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel_export, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(jButton_layout_apply)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane_main.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -691,12 +695,12 @@ private void jButton_export_coordinates_saveActionPerformed(java.awt.event.Actio
     private javax.swing.JLabel jLabel_canvas_height;
     private javax.swing.JLabel jLabel_canvas_width;
     private javax.swing.JLabel jLabel_layout_column_padding;
-    private javax.swing.JLabel jLabel_layout_layout;
     private javax.swing.JLabel jLabel_layout_layout_order;
     private javax.swing.JLabel jLabel_layout_row_padding;
     private javax.swing.JLabel jLabel_layout_sort_on;
     private javax.swing.JLabel jLabel_layout_sort_order;
     private javax.swing.JLabel jLabel_sprites_background_color;
+    private javax.swing.JLabel jLabel_sprites_scale;
     private javax.swing.JLabel jLabel_sprites_selection_color;
     private javax.swing.JMenuBar jMenuBar_main;
     private javax.swing.JMenuItem jMenuItem_main_file_coor_save;
@@ -716,6 +720,7 @@ private void jButton_export_coordinates_saveActionPerformed(java.awt.event.Actio
     private javax.swing.JTabbedPane jTabbedPane_main;
     private javax.swing.JTextField jTextField_layout_column_padding;
     private javax.swing.JTextField jTextField_layout_row_padding;
+    private javax.swing.JTextField jTextField_sprites_scale;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -877,5 +882,15 @@ private void jButton_export_coordinates_saveActionPerformed(java.awt.event.Actio
             this.setLayoutOrder(LayoutOrder.RowFirst);
         }
         this.jComboBox_layout_layout_order.setEnabled(!(this.jCheckBox_canvas_lock_height.isSelected()));
+    }
+
+    @Override
+    public float getSpriteScale() {
+        return Float.valueOf(this.jTextField_sprites_scale.getText());
+    }
+
+    @Override
+    public void setSpriteScale(float scale) {
+        this.jTextField_sprites_scale.setText(String.valueOf(scale));
     }
 }

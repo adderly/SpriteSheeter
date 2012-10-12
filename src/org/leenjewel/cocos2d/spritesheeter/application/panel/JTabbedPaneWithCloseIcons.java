@@ -17,12 +17,12 @@ public class JTabbedPaneWithCloseIcons extends JTabbedPane  implements MouseList
         init();
         setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
-	
+
 	public JTabbedPaneWithCloseIcons(int panexy) {
         super(panexy);
         init();
     }
-	
+
 	private void init(){
 		addMouseListener(this);
 	}
@@ -38,10 +38,11 @@ public class JTabbedPaneWithCloseIcons extends JTabbedPane  implements MouseList
         super.addTab(title, new CloseTabIcon(extraIcon), jsPane);
         super.setSelectedComponent(jsPane);
     }
-    
+
     @Override
     public Component getSelectedComponent() {
     	JScrollPaneWithNotePanel jsPane = (JScrollPaneWithNotePanel) super.getSelectedComponent();
+        if (null == jsPane) { return null; }
     	return jsPane.getNotePanel();
     }
 

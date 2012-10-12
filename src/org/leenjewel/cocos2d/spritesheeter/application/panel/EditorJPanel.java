@@ -95,8 +95,8 @@ public class EditorJPanel extends JPanel {
             IPLNode node = _imageList.get(i);
             result += "\n." + node.getName().split("[.]")[0] + "{\n";
             result += "    background-position:-" + String.valueOf(node.getX()) + "px -" + String.valueOf(node.getY()) + "px;\n";
-            result += "    width:" + String.valueOf(node.getWidth()) + "px;\n";
-            result += "    height:" + String.valueOf(node.getHeight()) + "px;\n";
+            result += "    width:" + String.valueOf(node.getScaleWidth()) + "px;\n";
+            result += "    height:" + String.valueOf(node.getScaleHeight()) + "px;\n";
             result += "}\n";
         }
         BufferedWriter writer = new BufferedWriter(new FileWriter(new File(cssPath), true));
@@ -204,6 +204,11 @@ public class EditorJPanel extends JPanel {
             _logic.setLayoutRowPadding(layout.get("RowPadding").getInteger());
             _logic.setLayoutColumnPadding(layout.get("ColumnPadding").getInteger());
         }
+
+        if (null != sprites){
+            float scale = sprites.get("Scale").getFloat();
+            _logic.setSpriteScale(scale);
+        }
     }
 
     private XMLFile saveOptionToXML(){
@@ -214,7 +219,6 @@ public class EditorJPanel extends JPanel {
 
         canvas.addNode("<Width>"+String.valueOf(_logic.getCanvasWidth()) +"</Width>");
         canvas.addNode("<Height>"+String.valueOf(_logic.getCanvasHeight()) +"</Height>");
-        //canvas.addNode("<Background>"+String.valueOf(_logic.getCanvasBackground()) +"</Background>");
         canvas.addNode("<Checkerboard>"+String.valueOf((_logic.getCanvasCheckerbard() ? "true" : "false")) +"</Checkerboard>");
 
         layout.addNode("<SortOn>"+String.valueOf(_logic.getLayoutSortOn()) +"</SortOn>");
@@ -225,18 +229,14 @@ public class EditorJPanel extends JPanel {
 
         sprites.addNode("<SelectorColor></SelectorColor>");
         sprites.addNode("<BackgroundColor></BackgroundColor>");
+        sprites.addNode("<Scale>"+String.valueOf(_logic.getSpriteScale()) +"</Scale>");
         return result;
     }
 
     private void setLookAndFeel(){
-        String osName = System.getProperty("os.name").toUpperCase();
-        try{
-            if (osName.equals("LINUX")){
-                UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-            }else{
-                UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-            }
-        }catch(Exception e){
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
         }
     }
 
@@ -290,19 +290,20 @@ public class EditorJPanel extends JPanel {
         int ny = padding_y;
         for (int i = 0; i < _imageList.size(); i++){
             IPLNode node = _imageList.get(i);
+            node.setScale(_logic.getSpriteScale());
             if (_logic.getLayoutOrder() == LayoutOrder.RowFirst){
-                if (lastWidth <= 0 && nx + node.getWidth() > _logic.getCanvasWidth()){
+                if (lastWidth <= 0 && nx + node.getScaleWidth() > _logic.getCanvasWidth()){
                     if (_logic.isLockHeight()){
-                        _logic.setCanvasWidth(nx + node.getWidth());
+                        _logic.setCanvasWidth(nx + node.getScaleWidth());
                     }else{
                         node.setX(-1);
                         node.setY(-1);
                         continue;
                     }
                 }
-                if (nx + node.getWidth() > _logic.getCanvasWidth()) {
+                if (nx + node.getScaleWidth() > _logic.getCanvasWidth()) {
                     if (_logic.isLockHeight()){
-                        _logic.setCanvasWidth(nx + node.getWidth());
+                        _logic.setCanvasWidth(nx + node.getScaleWidth());
                     } else {
                         nx = padding_x;
                         ny += (mheight + padding_y);
@@ -310,18 +311,18 @@ public class EditorJPanel extends JPanel {
                     }
                 }
             } else if (_logic.getLayoutOrder() == LayoutOrder.ColumnFirst){
-                if (lastHeight <= 0 && ny + node.getHeight() > _logic.getCanvasHeight()){
+                if (lastHeight <= 0 && ny + node.getScaleHeight() > _logic.getCanvasHeight()){
                     if (_logic.isLockWidth()){
-                        _logic.setCanvasHeight(ny + node.getHeight());
+                        _logic.setCanvasHeight(ny + node.getScaleHeight());
                     }else{
                         node.setX(-1);
                         node.setY(-1);
                         continue;
                     }
                 }
-                if (ny + node.getHeight() + padding_y > _logic.getCanvasHeight()) {
+                if (ny + node.getScaleHeight() + padding_y > _logic.getCanvasHeight()) {
                     if (_logic.isLockWidth()){
-                        _logic.setCanvasHeight(ny + node.getHeight());
+                        _logic.setCanvasHeight(ny + node.getScaleHeight());
                     } else {
                         ny = padding_y;
                         nx += (mwidth + padding_x);
@@ -331,8 +332,8 @@ public class EditorJPanel extends JPanel {
             }
             node.setX(nx);
             node.setY(ny);
-            lastWidth = node.getWidth();
-            lastHeight = node.getHeight();
+            lastWidth = node.getScaleWidth();
+            lastHeight = node.getScaleHeight();
             if (_logic.getLayoutOrder() == LayoutOrder.RowFirst){ nx += lastWidth + padding_x; }
             if (_logic.getLayoutOrder() == LayoutOrder.ColumnFirst){ ny += lastHeight + padding_y; }
             if (lastWidth > mwidth) { mwidth = lastWidth; }
@@ -369,7 +370,7 @@ public class EditorJPanel extends JPanel {
         for (int i = 0; i < _imageList.size(); i++){
             IPLNode<Image> node = _imageList.get(i);
             if (node.getX() >= 0 && node.getY() >= 0) {
-                g2d.drawImage(node.getData(), node.getX(), node.getY(), node.getWidth(), node.getHeight(), this);
+                g2d.drawImage(node.getData(), node.getX(), node.getY(), node.getScaleWidth(), node.getScaleHeight(), this);
             }
         }
         if (_isToSave == false && _logic.getCanvasCheckerbard()){
@@ -385,9 +386,10 @@ public class EditorJPanel extends JPanel {
         g.setColor(Color.RED);
         g.setStroke(new BasicStroke(1.0f));
         g.drawRect(0, 0, _canvasBackground.getWidth()-1, _canvasBackground.getHeight()-1);
+
         for (int i = 0; i < _imageList.size(); i++){
             IPLNode node = _imageList.get(i);
-            g.drawRect(node.getX(), node.getY(), node.getWidth(), node.getHeight());
+            g.drawRect(node.getX(), node.getY(), node.getScaleWidth(), node.getScaleHeight());
         }
         g.setColor(backupColor);
         g.setStroke(backupStroke);
